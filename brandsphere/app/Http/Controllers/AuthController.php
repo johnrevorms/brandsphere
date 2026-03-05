@@ -47,8 +47,8 @@ class AuthController extends Controller
 
             if ($user->role === 'admin') {
                 return redirect('/admin/dashboard');
-            } elseif ($user->role === 'content_manager') {
-                return redirect('/content/dashboard');
+            } elseif ($user->role === 'cms') {
+                return redirect('/cms/dashboard');
             } else {
                 return redirect('/dashboard');
             }

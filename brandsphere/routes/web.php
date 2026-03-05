@@ -30,8 +30,8 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard');
     });
 
-    Route::get('/content/dashboard', function () {
-        return view('content.dashboard');
+    Route::get('/cms/dashboard', function () {
+        return view('cms.dashboard');
     });
 
 });
