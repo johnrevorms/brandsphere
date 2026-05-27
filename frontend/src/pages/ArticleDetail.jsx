@@ -24,7 +24,7 @@ export default function ArticleDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white pt-24 pb-20">
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
         <div className="w-full h-[50vh] bg-white/5 animate-pulse mb-16"></div>
         <div className="max-w-3xl mx-auto px-4 animate-pulse">
           <div className="w-32 h-4 bg-white/10 rounded mb-10"></div>
@@ -41,9 +41,9 @@ export default function ArticleDetail() {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-6">
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col items-center justify-center gap-6">
         <h1 className="text-4xl font-bold italic">Artikel tidak ditemukan</h1>
-        <Link to="/blog" className="text-gray-400 hover:text-white flex items-center gap-2">
+        <Link to="/blog" className="text-gray-600 dark:text-gray-400 hover:text-white flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Kembali ke Blog
         </Link>
       </div>
@@ -51,10 +51,10 @@ export default function ArticleDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
       {/* Hero Cover */}
       {article.image_path && (
-        <div className="w-full h-[50vh] bg-gray-900 overflow-hidden relative mb-16">
+        <div className="w-full h-[50vh] bg-gray-50 dark:bg-gray-900 overflow-hidden relative mb-16">
           <img
             src={`http://localhost:8000/storage/${article.image_path}`}
             alt={article.title}
@@ -66,12 +66,12 @@ export default function ArticleDetail() {
 
       <div className="max-w-3xl mx-auto px-4">
         {/* Back link */}
-        <Link to="/blog" className="flex items-center gap-2 text-sm text-gray-500 hover:text-white transition mb-10">
+        <Link to="/blog" className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-500 hover:text-white transition mb-10">
           <ArrowLeft className="w-4 h-4" /> Kembali ke Journal
         </Link>
 
         {/* Meta */}
-        <div className="flex items-center gap-2 text-xs text-gray-500 font-mono mb-6">
+        <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-500 font-mono mb-6">
           <Calendar className="w-3 h-3" />
           {new Date(article.published_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
         </div>
@@ -83,7 +83,7 @@ export default function ArticleDetail() {
 
         {/* Subtitle */}
         {article.subtitle && (
-          <p className="text-xl text-gray-400 italic mb-12 leading-relaxed border-l-2 border-white/20 pl-6">
+          <p className="text-xl text-gray-600 dark:text-gray-400 italic mb-12 leading-relaxed border-l-2 border-black/20 dark:border-white/20 pl-6">
             {article.subtitle}
           </p>
         )}
@@ -91,7 +91,7 @@ export default function ArticleDetail() {
         <div className="h-px bg-white/10 mb-12"></div>
 
         {/* Content */}
-        <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap">
+        <div className="prose prose-invert prose-lg max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
           {article.content}
         </div>
 

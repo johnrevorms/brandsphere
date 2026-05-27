@@ -34,7 +34,7 @@ export default function About() {
     if (title.toLowerCase().startsWith("the ")) {
       return (
         <>
-          The <span className="text-gray-500">{title.slice(4)}</span>
+          The <span className="text-gray-600 dark:text-gray-500">{title.slice(4)}</span>
         </>
       );
     }
@@ -43,7 +43,7 @@ export default function About() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white pt-24 pb-20">
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
         <div className="w-full h-[50vh] bg-white/5 animate-pulse mb-16"></div>
         <div className="max-w-3xl mx-auto px-4 animate-pulse">
           <div className="w-full h-12 bg-white/10 rounded mb-6"></div>
@@ -58,19 +58,19 @@ export default function About() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
       {/* Hero Cover */}
       {settings.about_image ? (
-        <div className="w-full h-[50vh] bg-gray-900 overflow-hidden relative mb-16">
+        <div className="w-full h-[50vh] bg-gray-50 dark:bg-gray-900 overflow-hidden relative mb-16">
           <img
             src={`http://localhost:8000/storage/${settings.about_image}`}
             alt="Arcanum Studio"
             className="w-full h-full object-cover opacity-70"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 dark:from-black dark:via-black/50 to-transparent"></div>
         </div>
       ) : (
-        <div className="w-full h-[50vh] bg-white/5 overflow-hidden relative mb-16 flex items-center justify-center text-white/20 italic font-mono uppercase tracking-widest text-sm">
+        <div className="w-full h-[50vh] bg-white/5 overflow-hidden relative mb-16 flex items-center justify-center text-black dark:text-white/20 italic font-mono uppercase tracking-widest text-sm">
           No Studio Image
         </div>
       )}
@@ -82,14 +82,14 @@ export default function About() {
         </h1>
 
         {/* Subtitle / Quote */}
-        <p className="text-xl text-gray-400 italic mb-12 leading-relaxed border-l-2 border-white/20 pl-6">
+        <p className="text-xl text-gray-600 dark:text-gray-400 italic mb-12 leading-relaxed border-l-2 border-black/20 dark:border-white/20 pl-6">
           "{settings.about_quote || "More than just fabric and thread. Arcanum is the manifestation of the unknown."}"
         </p>
 
-        <div className="h-px bg-white/10 mb-12"></div>
+        <div className="h-px bg-black/10 dark:bg-white/10 mb-12"></div>
 
         {/* Content */}
-        <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap">
+        <div className="prose prose-invert prose-lg max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
           {pageContent || (
             <>
               Didirikan pada tahun 2026, Arcanum lahir dari kebutuhan untuk mengekspresikan sisi gelap, misterius, dan elegan dari gaya hidup urban. Kami menggabungkan siluet klasik dengan sentuhan avant-garde, menciptakan pakaian yang tidak hanya dipakai, tetapi juga dirasakan.
@@ -99,14 +99,14 @@ export default function About() {
           )}
         </div>
 
-        <div className="h-px bg-white/10 mt-16 mb-10"></div>
+        <div className="h-px bg-black/10 dark:bg-white/10 mt-16 mb-10"></div>
 
         {/* Footer actions */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link to="/products" className="bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors text-center text-sm">
+          <Link to="/products" className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors text-center text-sm">
             Koleksi Kami
           </Link>
-          <Link to="/careers" className="border border-white/20 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:border-white transition-colors text-center text-sm">
+          <Link to="/careers" className="border border-black/20 dark:border-white/20 text-black dark:text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:border-black dark:hover:border-white transition-colors text-center text-sm">
             Karir di Arcanum
           </Link>
         </div>

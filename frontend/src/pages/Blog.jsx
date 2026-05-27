@@ -26,15 +26,15 @@ export default function Blog() {
   const rest = articles.slice(1);
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-16 text-center">
-          <p className="text-xs tracking-[0.4em] uppercase text-gray-500 font-mono mb-4">— The Arcanum —</p>
+          <p className="text-xs tracking-[0.4em] uppercase text-gray-600 dark:text-gray-500 font-mono mb-4">— The Arcanum —</p>
           <h1 className="text-6xl md:text-8xl font-bold italic tracking-widest uppercase">
             Journal
           </h1>
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto">
             Cerita di balik layar, rilis edisi terbaru, dan pandangan langsung dari dunia Arcanum.
           </p>
           <div className="h-px bg-white/10 mt-12"></div>
@@ -73,14 +73,14 @@ export default function Blog() {
             </div>
           </>
         ) : articles.length === 0 ? (
-          <div className="text-center text-gray-500 py-32 italic text-lg">Belum ada artikel yang dipublikasikan.</div>
+          <div className="text-center text-gray-600 dark:text-gray-500 py-32 italic text-lg">Belum ada artikel yang dipublikasikan.</div>
         ) : (
           <>
             {/* Featured Article */}
             {featured && (
               <Link to={`/blog/${featured.id}`} className="block group mb-20">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-                  <div className="aspect-video bg-gray-900 rounded-3xl overflow-hidden">
+                  <div className="aspect-video bg-gray-50 dark:bg-gray-900 rounded-3xl overflow-hidden">
                     {featured.image_path ? (
                       <img
                         src={`http://localhost:8000/storage/${featured.image_path}`}
@@ -96,11 +96,11 @@ export default function Blog() {
                     <h2 className="text-4xl md:text-5xl font-bold italic tracking-wide leading-tight mb-6 group-hover:text-gray-300 transition-colors">
                       {featured.title}
                     </h2>
-                    <p className="text-gray-400 text-lg leading-relaxed mb-8 line-clamp-3">
+                    <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8 line-clamp-3">
                       {featured.subtitle || featured.content?.slice(0, 150)}
                     </p>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-gray-500 font-mono">
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-500 font-mono">
                         <Calendar className="w-4 h-4" />
                         {new Date(featured.published_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
                       </div>
@@ -117,7 +117,7 @@ export default function Blog() {
             {rest.length > 0 && (
               <div className="flex items-center gap-4 mb-12">
                 <div className="h-px bg-white/10 flex-1"></div>
-                <p className="text-xs tracking-[0.3em] uppercase text-gray-500 font-mono">Artikel Lainnya</p>
+                <p className="text-xs tracking-[0.3em] uppercase text-gray-600 dark:text-gray-500 font-mono">Artikel Lainnya</p>
                 <div className="h-px bg-white/10 flex-1"></div>
               </div>
             )}
@@ -126,7 +126,7 @@ export default function Blog() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rest.map((article) => (
                 <Link to={`/blog/${article.id}`} key={article.id} className="group cursor-pointer block">
-                  <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden mb-5">
+                  <div className="aspect-video bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden mb-5">
                     {article.image_path ? (
                       <img
                         src={`http://localhost:8000/storage/${article.image_path}`}
@@ -137,14 +137,14 @@ export default function Blog() {
                       <div className="w-full h-full flex items-center justify-center text-gray-600 italic">No Cover</div>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-500 font-mono mb-3">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-500 font-mono mb-3">
                     <Calendar className="w-3 h-3" />
                     {new Date(article.published_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </div>
                   <h3 className="text-xl font-bold tracking-wide mb-3 group-hover:text-gray-300 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-gray-400 text-sm line-clamp-2 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4">
                     {article.subtitle || article.content?.slice(0, 100)}
                   </p>
                   <span className="flex items-center gap-1 text-xs font-bold tracking-widest uppercase group-hover:gap-2 transition-all">

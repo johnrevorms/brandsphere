@@ -81,7 +81,7 @@ export default function CMSBlog() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Kelola Blog</h1>
-          <p className="text-gray-400 mt-2">Tulis, edit, dan terbitkan artikel untuk pengunjung web.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Tulis, edit, dan terbitkan artikel untuk pengunjung web.</p>
         </div>
         <button
           onClick={openAdd}
@@ -92,56 +92,56 @@ export default function CMSBlog() {
       </div>
 
       {showForm && (
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 mb-8">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 mb-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold italic">{editingId ? '✏️ Edit Artikel' : '+ Artikel Baru'}</h2>
-            <button onClick={closeForm} className="text-gray-400 hover:text-white transition">
+            <button onClick={closeForm} className="text-gray-600 dark:text-gray-400 hover:text-white transition">
               <X className="w-5 h-5" />
             </button>
           </div>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-400">Judul Artikel *</label>
+              <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Judul Artikel *</label>
               <input
                 type="text" required
                 value={formData.title}
                 onChange={e => setFormData({ ...formData, title: e.target.value })}
                 placeholder="Judul menarik artikel..."
-                className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-400">Subjudul / Ringkasan</label>
+              <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Subjudul / Ringkasan</label>
               <input
                 type="text"
                 value={formData.subtitle}
                 onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
                 placeholder="Deskripsi singkat artikel..."
-                className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition"
               />
             </div>
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-semibold text-gray-400">Isi Konten *</label>
+              <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Isi Konten *</label>
               <textarea
                 required rows={10}
                 value={formData.content}
                 onChange={e => setFormData({ ...formData, content: e.target.value })}
                 placeholder="Tulis konten artikel di sini..."
-                className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition resize-y"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition resize-y"
               />
             </div>
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-semibold text-gray-400">
-                Gambar Cover {editingId && <span className="text-gray-500 font-normal">(biarkan kosong jika tidak diganti)</span>}
+              <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">
+                Gambar Cover {editingId && <span className="text-gray-600 dark:text-gray-500 font-normal">(biarkan kosong jika tidak diganti)</span>}
               </label>
               <input
                 type="file" accept="image/*"
                 onChange={e => setFormData({ ...formData, image: e.target.files[0] })}
-                className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition"
               />
             </div>
             <div className="md:col-span-2 flex justify-end gap-3 mt-2">
-              <button type="button" onClick={closeForm} className="px-5 py-2 rounded-lg border border-white/20 text-gray-400 hover:text-white transition text-sm">Batal</button>
+              <button type="button" onClick={closeForm} className="px-5 py-2 rounded-lg border border-black/20 dark:border-white/20 text-gray-600 dark:text-gray-400 hover:text-white transition text-sm">Batal</button>
               <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-white text-black font-bold italic hover:bg-gray-200 transition disabled:opacity-50">
                 {submitting ? 'Menyimpan...' : editingId ? 'Simpan Perubahan' : 'Publikasikan'}
               </button>
@@ -150,30 +150,30 @@ export default function CMSBlog() {
         </div>
       )}
 
-      <div className="bg-gray-900 border border-white/10 rounded-3xl overflow-hidden">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-black/50 border-b border-white/10">
+          <thead className="bg-white dark:bg-black/50 border-b border-black/10 dark:border-white/10">
             <tr>
-              <th className="p-4 font-semibold text-gray-400">Artikel</th>
-              <th className="p-4 font-semibold text-gray-400">Tanggal Publish</th>
-              <th className="p-4 font-semibold text-gray-400 text-right">Aksi</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Artikel</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Tanggal Publish</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400 text-right">Aksi</th>
             </tr>
           </thead>
           <tbody>
             {articles.map((article) => (
-              <tr key={article.id} className="border-b border-white/10 hover:bg-white/5 transition">
+              <tr key={article.id} className="border-b border-black/10 dark:border-white/10 hover:bg-white/5 transition">
                 <td className="p-4 flex items-center gap-4">
-                  <div className="w-16 h-12 bg-gray-800 rounded overflow-hidden flex-shrink-0 flex items-center justify-center">
+                  <div className="w-16 h-12 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden flex-shrink-0 flex items-center justify-center">
                     {article.image_path
                       ? <img src={`http://localhost:8000/storage/${article.image_path}`} className="w-full h-full object-cover" alt="" />
-                      : <span className="text-[10px] text-gray-500">No Img</span>}
+                      : <span className="text-[10px] text-gray-600 dark:text-gray-500">No Img</span>}
                   </div>
                   <div>
                     <p className="font-bold italic">{article.title}</p>
-                    <p className="text-xs text-gray-400 line-clamp-1">{article.subtitle}</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-1">{article.subtitle}</p>
                   </div>
                 </td>
-                <td className="p-4 text-sm text-gray-300">
+                <td className="p-4 text-sm text-gray-700 dark:text-gray-300">
                   {article.published_at ? new Date(article.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
                 </td>
                 <td className="p-4 text-right">
@@ -189,7 +189,7 @@ export default function CMSBlog() {
               </tr>
             ))}
             {articles.length === 0 && (
-              <tr><td colSpan="3" className="p-8 text-center text-gray-500 italic">Belum ada artikel. Klik "Tulis Artikel Baru" untuk mulai.</td></tr>
+              <tr><td colSpan="3" className="p-8 text-center text-gray-600 dark:text-gray-500 italic">Belum ada artikel. Klik "Tulis Artikel Baru" untuk mulai.</td></tr>
             )}
           </tbody>
         </table>

@@ -86,7 +86,7 @@ export default function CMSApplications() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Daftar Pelamar Karir</h1>
-          <p className="text-gray-400 mt-2">Tinjau CV pelamar, lakukan seleksi, dan kelola database berkas pelamar.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Tinjau CV pelamar, lakukan seleksi, dan kelola database berkas pelamar.</p>
         </div>
         
         {/* Status Filters */}
@@ -98,7 +98,7 @@ export default function CMSApplications() {
               className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition ${
                 filterStatus === status 
                   ? 'bg-white text-black' 
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-white'
               }`}
             >
               {status}
@@ -107,19 +107,19 @@ export default function CMSApplications() {
         </div>
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl">
         {loading ? (
-          <div className="p-20 text-center text-gray-500 italic">Memuat pelamar...</div>
+          <div className="p-20 text-center text-gray-600 dark:text-gray-500 italic">Memuat pelamar...</div>
         ) : filteredApps.length === 0 ? (
-          <div className="p-20 text-center text-gray-500">
+          <div className="p-20 text-center text-gray-600 dark:text-gray-500">
             <Filter className="w-12 h-12 mx-auto mb-4 opacity-20" />
             <p className="text-xl italic">Belum ada pelamar pada kategori ini.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-black/50 border-b border-white/10">
-                <tr className="text-xs uppercase tracking-widest text-gray-400">
+              <thead className="bg-white dark:bg-black/50 border-b border-black/10 dark:border-white/10">
+                <tr className="text-xs uppercase tracking-widest text-gray-600 dark:text-gray-400">
                   <th className="p-5 font-semibold">Pelamar</th>
                   <th className="p-5 font-semibold">Posisi Dilamar</th>
                   <th className="p-5 font-semibold">Kontak</th>
@@ -135,8 +135,8 @@ export default function CMSApplications() {
                     {/* Applicant Info */}
                     <td className="p-5">
                       <div className="flex flex-col">
-                        <span className="font-bold text-lg text-white">{app.name}</span>
-                        <span className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                        <span className="font-bold text-lg text-black dark:text-white">{app.name}</span>
+                        <span className="text-xs text-gray-600 dark:text-gray-500 flex items-center gap-1 mt-1">
                           <Calendar className="w-3.5 h-3.5 text-gray-600" />
                           Melamar pada {formatLocalDate(app.created_at)}
                         </span>
@@ -146,20 +146,20 @@ export default function CMSApplications() {
                     {/* Dilamar Position */}
                     <td className="p-5">
                       <div className="flex items-center gap-2">
-                        <Briefcase className="w-4 h-4 text-gray-500" />
-                        <span className="font-bold italic text-gray-300">{app.career ? app.career.position : 'Posisi Terhapus'}</span>
+                        <Briefcase className="w-4 h-4 text-gray-600 dark:text-gray-500" />
+                        <span className="font-bold italic text-gray-700 dark:text-gray-300">{app.career ? app.career.position : 'Posisi Terhapus'}</span>
                       </div>
                     </td>
 
                     {/* Contact details */}
                     <td className="p-5">
-                      <div className="flex flex-col gap-1 text-sm text-gray-300 font-mono">
+                      <div className="flex flex-col gap-1 text-sm text-gray-700 dark:text-gray-300 font-mono">
                         <span className="flex items-center gap-2">
-                          <Mail className="w-3.5 h-3.5 text-gray-500" />
+                          <Mail className="w-3.5 h-3.5 text-gray-600 dark:text-gray-500" />
                           {app.email}
                         </span>
                         <span className="flex items-center gap-2">
-                          <Phone className="w-3.5 h-3.5 text-gray-500" />
+                          <Phone className="w-3.5 h-3.5 text-gray-600 dark:text-gray-500" />
                           {app.phone}
                         </span>
                       </div>
@@ -171,11 +171,11 @@ export default function CMSApplications() {
                         href={`http://localhost:8000/storage/${app.cv_path}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-white/30 text-white px-4 py-2 rounded-xl transition hover:scale-105"
+                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider bg-white/5 border border-black/10 dark:border-white/10 hover:border-white/30 text-black dark:text-white px-4 py-2 rounded-xl transition hover:scale-105"
                       >
-                        <FileText className="w-4 h-4 text-gray-400" />
+                        <FileText className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                         Lihat CV
-                        <Download className="w-3 h-3 text-gray-500" />
+                        <Download className="w-3 h-3 text-gray-600 dark:text-gray-500" />
                       </a>
                     </td>
 

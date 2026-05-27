@@ -41,14 +41,14 @@ export default function AdminReports() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Laporan Penjualan</h1>
-          <p className="text-gray-400 mt-2">Unduh laporan transaksi dan analitik penjualan.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Unduh laporan transaksi dan analitik penjualan.</p>
         </div>
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h2 className="text-xl font-bold italic mb-2">Ekspor Laporan</h2>
-          <div className="flex items-center gap-4 text-gray-400">
+          <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
             <p className="text-sm">Unduh laporan dalam format PDF berdesain profesional atau Excel.</p>
           </div>
         </div>
@@ -112,26 +112,26 @@ export default function AdminReports() {
 
               XLSX.writeFile(workbook, "Laporan_Penjualan_Arcanum.xlsx");
             }}
-            className="bg-gray-800 text-white font-bold italic px-6 py-3 rounded-xl border border-white/20 flex items-center justify-center gap-2 hover:bg-gray-700 transition"
+            className="bg-gray-200 dark:bg-gray-800 text-black dark:text-white font-bold italic px-6 py-3 rounded-xl border border-black/20 dark:border-white/20 flex items-center justify-center gap-2 hover:bg-gray-700 transition"
           >
             <Table className="w-5 h-5" /> Export Excel
           </button>
         </div>
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-3xl overflow-hidden">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-black/50 border-b border-white/10">
+          <thead className="bg-white dark:bg-black/50 border-b border-black/10 dark:border-white/10">
             <tr>
-              <th className="p-4 font-semibold text-gray-400">Tanggal</th>
-              <th className="p-4 font-semibold text-gray-400">Total Transaksi</th>
-              <th className="p-4 font-semibold text-gray-400">Barang Terjual</th>
-              <th className="p-4 font-semibold text-gray-400 text-right">Pendapatan</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Tanggal</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Total Transaksi</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Barang Terjual</th>
+              <th className="p-4 font-semibold text-gray-600 dark:text-gray-400 text-right">Pendapatan</th>
             </tr>
           </thead>
           <tbody>
             {reports.map((report, idx) => (
-              <tr key={idx} className="border-b border-white/10 hover:bg-white/5 transition">
+              <tr key={idx} className="border-b border-black/10 dark:border-white/10 hover:bg-white/5 transition">
                 <td className="p-4 font-bold">{report.date}</td>
                 <td className="p-4">{report.orderCount} Order</td>
                 <td className="p-4">{report.itemCount} Item</td>
@@ -140,7 +140,7 @@ export default function AdminReports() {
             ))}
             {reports.length === 0 && (
               <tr>
-                <td colSpan="4" className="p-8 text-center text-gray-500 italic">Belum ada data penjualan tersedia.</td>
+                <td colSpan="4" className="p-8 text-center text-gray-600 dark:text-gray-500 italic">Belum ada data penjualan tersedia.</td>
               </tr>
             )}
           </tbody>

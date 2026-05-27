@@ -55,16 +55,16 @@ export default function CMSPages() {
     <DashboardLayout role="cms">
       <div className="mb-8">
         <h1 className="text-3xl font-bold italic tracking-wider">Kelola Halaman Statis</h1>
-        <p className="text-gray-400 mt-2">Ubah konten untuk semua halaman informasi di footer website.</p>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">Ubah konten untuk semua halaman informasi di footer website.</p>
       </div>
 
       <div className="flex flex-col gap-8">
         {PAGE_SLUGS.map(({ slug, label, hint }) => (
-          <div key={slug} className="bg-gray-900 border border-white/10 rounded-3xl p-8">
-            <div className="flex justify-between items-start mb-4 border-b border-white/10 pb-4">
+          <div key={slug} className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8">
+            <div className="flex justify-between items-start mb-4 border-b border-black/10 dark:border-white/10 pb-4">
               <div>
                 <h2 className="text-xl font-bold italic">{label}</h2>
-                <p className="text-xs text-gray-500 mt-1">{hint}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-500 mt-1">{hint}</p>
               </div>
               <button
                 onClick={() => handleSave(slug)}
@@ -76,13 +76,13 @@ export default function CMSPages() {
               </button>
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Konten Halaman</label>
+              <label className="text-xs font-semibold text-gray-600 dark:text-gray-500 uppercase tracking-wider">Konten Halaman</label>
               <textarea
                 rows={8}
                 value={pages[slug]}
                 onChange={e => setPages({ ...pages, [slug]: e.target.value })}
                 placeholder={`Tulis konten untuk halaman ${label}...`}
-                className="bg-black border border-white/20 rounded-lg p-4 text-white focus:outline-none focus:border-white resize-y transition text-sm leading-relaxed"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-4 text-black dark:text-white focus:outline-none focus:border-white resize-y transition text-sm leading-relaxed"
               />
             </div>
           </div>

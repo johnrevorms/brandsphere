@@ -63,11 +63,11 @@ export default function Products() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white pt-32 pb-12">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-12">
       {/* Sticky Filter & Search Bar */}
       <div
         ref={filterRef}
-        className={`w-full z-40 transition-all duration-300 ${isSticky ? 'fixed top-20 bg-black/90 backdrop-blur-md border-b border-white/10 py-4 shadow-2xl' : 'relative mb-12'}`}
+        className={`w-full z-40 transition-all duration-300 ${isSticky ? 'fixed top-20 bg-white dark:bg-black/90 backdrop-blur-md border-b border-black/10 dark:border-white/10 py-4 shadow-2xl' : 'relative mb-12'}`}
       >
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row gap-4 justify-between items-center">
           {/* Categories */}
@@ -78,7 +78,7 @@ export default function Products() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-6 py-2 rounded-full border whitespace-nowrap text-sm font-bold tracking-widest uppercase transition-all ${activeCategory === cat
                   ? 'bg-white text-black border-white'
-                  : 'bg-transparent text-gray-400 border-white/20 hover:border-white hover:text-white'
+                  : 'bg-transparent text-gray-600 dark:text-gray-400 border-black/20 dark:border-white/20 hover:border-white hover:text-white'
                   }`}
               >
                 {cat}
@@ -93,9 +93,9 @@ export default function Products() {
               placeholder="Cari produk..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-gray-900 border border-white/20 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-gray-50 dark:bg-gray-900 border border-black/20 dark:border-white/20 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-white transition-colors"
             />
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 dark:text-gray-400" />
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function Products() {
             filteredProducts.map((product) => (
               <div key={product.id} onClick={() => navigate(`/products/${product.id}`)} className="group cursor-pointer flex flex-col">
                 {/* Image Container */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-gray-900 rounded-2xl mb-4">
+                <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 dark:bg-gray-900 rounded-2xl mb-4">
                   {product.image_path ? (
                     <img
                       src={`http://localhost:8000/storage/${product.image_path}`}
@@ -131,7 +131,7 @@ export default function Products() {
                   )}
 
                   {/* Overlay UI */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-white dark:bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <button
                       disabled={product.stock_status === 'Out of Stock'}
                       onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}
@@ -144,7 +144,7 @@ export default function Products() {
 
                   {/* Stock Status Tag */}
                   {product.stock_status === 'Out of Stock' && (
-                    <div className="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                    <div className="absolute top-4 left-4 bg-red-500 text-black dark:text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                       Habis
                     </div>
                   )}
@@ -152,14 +152,14 @@ export default function Products() {
 
                 {/* Product Info */}
                 <div className="flex flex-col flex-grow">
-                  <p className="text-xs text-gray-500 mb-1 font-mono">{product.category}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-500 mb-1 font-mono">{product.category}</p>
                   <h3 className="text-lg font-bold italic tracking-wide mb-2 line-clamp-1">{product.name}</h3>
                   <div className="flex items-center justify-between mt-auto">
-                    <p className="font-mono text-gray-300">Rp {product.price.toLocaleString('id-ID')}</p>
+                    <p className="font-mono text-gray-700 dark:text-gray-300">Rp {product.price.toLocaleString('id-ID')}</p>
                     <button
                       disabled={product.stock_status === 'Out of Stock'}
                       onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}
-                      className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-8 h-8 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
@@ -171,7 +171,7 @@ export default function Products() {
         </div>
 
         {!loading && filteredProducts.length === 0 && (
-          <div className="text-center py-20 text-gray-500">
+          <div className="text-center py-20 text-gray-600 dark:text-gray-500">
             <Filter className="w-12 h-12 mx-auto mb-4 opacity-20" />
             <p className="text-xl italic">Koleksi untuk kategori ini belum tersedia.</p>
           </div>

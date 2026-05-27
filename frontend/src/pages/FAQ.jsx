@@ -30,19 +30,19 @@ export default function FAQ() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white pt-28 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-28 pb-20">
       <div className="max-w-3xl mx-auto px-4">
-        <p className="text-xs tracking-[0.4em] uppercase text-gray-500 font-mono mb-4 text-center">— Info —</p>
+        <p className="text-xs tracking-[0.4em] uppercase text-gray-600 dark:text-gray-500 font-mono mb-4 text-center">— Info —</p>
         <h1 className="text-5xl italic font-bold mb-16 uppercase tracking-widest text-center">FAQ</h1>
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-black/20 dark:border-white/20 border-t-white rounded-full animate-spin" />
           </div>
         ) : content ? (
           /* CMS-managed content */
-          <div className="bg-gray-900 border border-white/10 rounded-2xl p-8">
-            <div className="prose prose-invert max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap">
+          <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-2xl p-8">
+            <div className="prose prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
               {content}
             </div>
           </div>
@@ -50,9 +50,9 @@ export default function FAQ() {
           /* Fallback default content */
           <div className="flex flex-col gap-8">
             {defaultItems.map((item, i) => (
-              <div key={i} className="bg-gray-900 border border-white/10 rounded-2xl p-6">
+              <div key={i} className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-2xl p-6">
                 <p className="font-bold italic text-lg mb-3">Q: {item.q}</p>
-                <p className="text-gray-400 leading-relaxed">A: {item.a}</p>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">A: {item.a}</p>
               </div>
             ))}
           </div>

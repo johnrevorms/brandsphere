@@ -40,36 +40,36 @@ export default function AdminDashboard() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Ikhtisar Admin</h1>
-          <p className="text-gray-400 mt-2">Selamat datang kembali. Berikut adalah ringkasan toko hari ini.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Selamat datang kembali. Berikut adalah ringkasan toko hari ini.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gray-900 border border-white/10 p-6 rounded-3xl">
-          <h3 className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Pesanan</h3>
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
+          <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Pesanan</h3>
           <p className="text-4xl font-bold">{stats.totalOrders}</p>
         </div>
-        <div className="bg-gray-900 border border-white/10 p-6 rounded-3xl">
-          <h3 className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Pendapatan</h3>
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
+          <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Pendapatan</h3>
           <p className="text-4xl font-bold">Rp {stats.totalRevenue.toLocaleString('id-ID')}</p>
         </div>
-        <div className="bg-gray-900 border border-white/10 p-6 rounded-3xl">
-          <h3 className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Produk Aktif</h3>
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 p-6 rounded-3xl">
+          <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Produk Aktif</h3>
           <p className="text-4xl font-bold">{stats.activeProducts}</p>
         </div>
       </div>
 
-      <div className="bg-gray-900 border border-white/10 rounded-3xl p-8">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8">
         <h2 className="text-xl font-bold italic mb-6">Pesanan Terbaru</h2>
         {recentOrders.length === 0 ? (
-          <div className="flex items-center justify-center h-48 border-2 border-dashed border-white/10 rounded-xl">
-            <p className="text-gray-500 italic">Belum ada pesanan masuk.</p>
+          <div className="flex items-center justify-center h-48 border-2 border-dashed border-black/10 dark:border-white/10 rounded-xl">
+            <p className="text-gray-600 dark:text-gray-500 italic">Belum ada pesanan masuk.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/10 text-sm text-gray-400">
+                <tr className="border-b border-black/10 dark:border-white/10 text-sm text-gray-600 dark:text-gray-400">
                   <th className="pb-3">Order ID</th>
                   <th className="pb-3">Pelanggan</th>
                   <th className="pb-3">Status</th>

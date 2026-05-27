@@ -41,7 +41,7 @@ function AppLayout() {
   const isDashboard = location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/cmsdashboard');
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col transition-colors duration-300">
       {!isDashboard && <Navbar />}
       <main className="flex-grow w-full">
         <Routes>

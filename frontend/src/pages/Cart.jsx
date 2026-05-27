@@ -149,11 +149,11 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white pt-32 pb-12 px-4 flex flex-col items-center justify-center">
-        <ShoppingCart className="w-16 h-16 text-white/40 mb-8" strokeWidth={1} />
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-12 px-4 flex flex-col items-center justify-center">
+        <ShoppingCart className="w-16 h-16 text-black dark:text-white/40 mb-8" strokeWidth={1} />
         <h1 className="text-2xl font-light tracking-[0.2em] uppercase mb-4 text-center">Keranjang Kosong</h1>
-        <p className="text-gray-400 mb-10 text-center text-sm tracking-widest font-light">Belum ada mahakarya yang Anda pilih.</p>
-        <Link to="/products" className="border border-white/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500">
+        <p className="text-gray-600 dark:text-gray-400 mb-10 text-center text-sm tracking-widest font-light">Belum ada mahakarya yang Anda pilih.</p>
+        <Link to="/products" className="border border-white/50 text-black dark:text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500">
           Eksplorasi Koleksi
         </Link>
       </div>
@@ -161,7 +161,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-32 pb-24">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <h1 className="text-3xl md:text-5xl font-light tracking-[0.15em] uppercase mb-16 text-center">
           <span className="font-bold italic">Keranjang Belanja</span>
@@ -174,11 +174,11 @@ export default function Cart() {
             {/* Items */}
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-4">
-                <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-white/70">Daftar Produk</h2>
+                <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70">Daftar Produk</h2>
                 <label className="flex items-center gap-3 cursor-pointer group">
-                  <span className="text-xs text-white/70 group-hover:text-white transition-colors uppercase tracking-widest font-medium">Pilih Semua</span>
+                  <span className="text-xs text-black dark:text-white/70 group-hover:text-white transition-colors uppercase tracking-widest font-medium">Pilih Semua</span>
                   <div className={`w-4 h-4 flex items-center justify-center border transition-all duration-300 ${selectedItems.length === cart.length && cart.length > 0 ? 'bg-white border-white' : 'border-white/50 group-hover:border-white/90'}`}>
-                    {selectedItems.length === cart.length && cart.length > 0 && <div className="w-2 h-2 bg-black" />}
+                    {selectedItems.length === cart.length && cart.length > 0 && <div className="w-2 h-2 bg-white dark:bg-black" />}
                   </div>
                   <input type="checkbox" className="hidden" onChange={() => {
                     if (selectedItems.length === cart.length) setSelectedItems([]);
@@ -187,11 +187,11 @@ export default function Cart() {
                 </label>
               </div>
               {cart.map((item) => (
-                <div key={item.cartItemId || item.id} className="flex gap-4 md:gap-8 bg-white/[0.01] hover:bg-white/[0.02] transition-colors p-4 md:p-6 border-b border-white/10 group">
+                <div key={item.cartItemId || item.id} className="flex gap-4 md:gap-8 bg-white/[0.01] hover:bg-white/[0.02] transition-colors p-4 md:p-6 border-b border-black/10 dark:border-white/10 group">
                   <div className="flex items-center justify-center">
                     <label className="cursor-pointer group p-2">
                       <div className={`w-5 h-5 flex items-center justify-center border transition-all duration-300 ${(selectedItems.includes(item.cartItemId || item.id)) ? 'bg-white border-white' : 'border-white/50 group-hover:border-white/90'}`}>
-                        {(selectedItems.includes(item.cartItemId || item.id)) && <div className="w-2.5 h-2.5 bg-black" />}
+                        {(selectedItems.includes(item.cartItemId || item.id)) && <div className="w-2.5 h-2.5 bg-white dark:bg-black" />}
                       </div>
                       <input type="checkbox" className="hidden"
                         checked={selectedItems.includes(item.cartItemId || item.id)}
@@ -203,30 +203,30 @@ export default function Cart() {
                     {item.image_path ? (
                       <img src={`http://localhost:8000/storage/${item.image_path}`} alt={item.name} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs text-white/60 tracking-widest uppercase">No Img</div>
+                      <div className="w-full h-full flex items-center justify-center text-xs text-black dark:text-white/60 tracking-widest uppercase">No Img</div>
                     )}
                   </div>
                   <div className="flex-1 flex flex-col justify-between py-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-[10px] text-white/70 font-mono tracking-widest uppercase mb-2">{item.category}</p>
+                        <p className="text-[10px] text-black dark:text-white/70 font-mono tracking-widest uppercase mb-2">{item.category}</p>
                         <h3 className="text-xl font-light tracking-wider uppercase">{item.name}</h3>
                         <div className="flex items-center gap-4 mt-3">
-                          <span className="text-xs font-mono text-white/80 border border-white/30 px-3 py-1">Size: {item.size || 'L'}</span>
+                          <span className="text-xs font-mono text-black dark:text-white/80 border border-white/30 px-3 py-1">Size: {item.size || 'L'}</span>
                         </div>
                       </div>
-                      <button onClick={() => removeFromCart(item.cartItemId || item.id)} className="text-white/50 hover:text-white transition-colors p-2">
+                      <button onClick={() => removeFromCart(item.cartItemId || item.id)} className="text-black dark:text-white/50 hover:text-white transition-colors p-2">
                         <Trash2 className="w-4 h-4" strokeWidth={1.5} />
                       </button>
                     </div>
 
-                    <div className="flex items-center justify-between mt-6 border-t border-white/10 pt-4">
-                      <p className="font-mono text-sm tracking-widest text-white/90">IDR {item.price.toLocaleString('id-ID')}</p>
+                    <div className="flex items-center justify-between mt-6 border-t border-black/10 dark:border-white/10 pt-4">
+                      <p className="font-mono text-sm tracking-widest text-black dark:text-white/90">IDR {item.price.toLocaleString('id-ID')}</p>
 
                       <div className="flex items-center gap-4 bg-transparent">
-                        <button onClick={() => updateQuantity(item.cartItemId || item.id, -1)} className="text-white/70 hover:text-white transition-colors p-1"><Minus className="w-3 h-3" strokeWidth={1.5} /></button>
+                        <button onClick={() => updateQuantity(item.cartItemId || item.id, -1)} className="text-black dark:text-white/70 hover:text-white transition-colors p-1"><Minus className="w-3 h-3" strokeWidth={1.5} /></button>
                         <span className="font-mono text-sm w-6 text-center">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.cartItemId || item.id, 1)} className="text-white/70 hover:text-white transition-colors p-1"><Plus className="w-3 h-3" strokeWidth={1.5} /></button>
+                        <button onClick={() => updateQuantity(item.cartItemId || item.id, 1)} className="text-black dark:text-white/70 hover:text-white transition-colors p-1"><Plus className="w-3 h-3" strokeWidth={1.5} /></button>
                       </div>
                     </div>
                   </div>
@@ -235,66 +235,66 @@ export default function Cart() {
             </div>
 
             {/* Shipping Form */}
-            <div className="space-y-8 bg-white/[0.02] backdrop-blur-xl border border-white/10 p-8 md:p-10">
-              <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-white/70 border-b border-white/20 pb-4">Info Pengiriman</h2>
+            <div className="space-y-8 bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-8 md:p-10">
+              <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70 border-b border-black/20 dark:border-white/20 pb-4">Info Pengiriman</h2>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-white/70 tracking-widest uppercase mb-3">Alamat Lengkap</label>
+                  <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Alamat Lengkap</label>
                   <textarea
                     value={address}
                     onChange={e => setAddress(e.target.value)}
-                    className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors resize-none h-16 placeholder-white/40"
+                    className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-white transition-colors resize-none h-16 placeholder-white/40"
                     placeholder="Nama Jalan, RT/RW, Kelurahan, Kecamatan..."
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="block text-xs font-mono text-white/70 tracking-widest uppercase mb-3">Provinsi</label>
+                    <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Provinsi</label>
                     <select
                       value={provinceId}
                       onChange={e => setProvinceId(e.target.value)}
-                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
+                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
                     >
-                      <option value="" className="bg-black text-gray-400">Pilih Provinsi</option>
+                      <option value="" className="bg-white dark:bg-black text-gray-600 dark:text-gray-400">Pilih Provinsi</option>
                       {provinces.map(p => (
-                        <option key={p.province_id} value={p.province_id} className="bg-black text-white">{p.province}</option>
+                        <option key={p.province_id} value={p.province_id} className="bg-white dark:bg-black text-black dark:text-white">{p.province}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-mono text-white/70 tracking-widest uppercase mb-3">Kota/Kabupaten</label>
+                    <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Kota/Kabupaten</label>
                     <select
                       value={cityId}
                       onChange={e => setCityId(e.target.value)}
                       disabled={!provinceId}
-                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors disabled:opacity-30 cursor-pointer"
+                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-white transition-colors disabled:opacity-30 cursor-pointer"
                     >
-                      <option value="" className="bg-black text-gray-400">Pilih Kota</option>
+                      <option value="" className="bg-white dark:bg-black text-gray-600 dark:text-gray-400">Pilih Kota</option>
                       {cities.map(c => (
-                        <option key={c.city_id} value={c.city_id} className="bg-black text-white">{c.type} {c.city_name}</option>
+                        <option key={c.city_id} value={c.city_id} className="bg-white dark:bg-black text-black dark:text-white">{c.type} {c.city_name}</option>
                       ))}
                     </select>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-white/10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-black/10 dark:border-white/10">
                   <div>
-                    <label className="block text-xs font-mono text-white/70 tracking-widest uppercase mb-3">Kurir</label>
+                    <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Kurir</label>
                     <select
                       value={courier}
                       onChange={e => setCourier(e.target.value)}
-                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
+                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
                     >
-                      <option value="" className="bg-black text-gray-400">Pilih Kurir</option>
-                      <option value="jne" className="bg-black text-white">JNE</option>
-                      <option value="pos" className="bg-black text-white">POS Indonesia</option>
-                      <option value="tiki" className="bg-black text-white">TIKI</option>
+                      <option value="" className="bg-white dark:bg-black text-gray-600 dark:text-gray-400">Pilih Kurir</option>
+                      <option value="jne" className="bg-white dark:bg-black text-black dark:text-white">JNE</option>
+                      <option value="pos" className="bg-white dark:bg-black text-black dark:text-white">POS Indonesia</option>
+                      <option value="tiki" className="bg-white dark:bg-black text-black dark:text-white">TIKI</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-mono text-white/70 tracking-widest uppercase mb-3">Layanan (Ongkir)</label>
+                    <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Layanan (Ongkir)</label>
                     <select
                       value={service}
                       onChange={e => {
@@ -303,11 +303,11 @@ export default function Cart() {
                         if (selectedCost) setShippingCost(selectedCost.cost[0].value);
                       }}
                       disabled={!costs.length}
-                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors disabled:opacity-30 cursor-pointer"
+                      className="w-full bg-transparent border-b border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-white transition-colors disabled:opacity-30 cursor-pointer"
                     >
-                      <option value="" className="bg-black text-gray-400">Pilih Layanan</option>
+                      <option value="" className="bg-white dark:bg-black text-gray-600 dark:text-gray-400">Pilih Layanan</option>
                       {costs.map(c => (
-                        <option key={c.service} value={c.service} className="bg-black text-white">
+                        <option key={c.service} value={c.service} className="bg-white dark:bg-black text-black dark:text-white">
                           {c.service} - IDR {c.cost[0].value.toLocaleString('id-ID')} ({c.cost[0].etd} hr)
                         </option>
                       ))}
@@ -321,21 +321,21 @@ export default function Cart() {
           </div>
 
           <div className="w-full lg:w-[400px]">
-            <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 p-8 md:p-10 sticky top-32">
-              <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-white/70 border-b border-white/20 pb-4 mb-8">Ringkasan Pesanan</h2>
+            <div className="bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-8 md:p-10 sticky top-32">
+              <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70 border-b border-black/20 dark:border-white/20 pb-4 mb-8">Ringkasan Pesanan</h2>
 
               <div className="space-y-5 mb-10">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/80 tracking-wider">Subtotal</span>
+                  <span className="text-black dark:text-white/80 tracking-wider">Subtotal</span>
                   <span className="font-mono tracking-widest">IDR {subTotal.toLocaleString('id-ID')}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/80 tracking-wider">Ongkos Kirim</span>
+                  <span className="text-black dark:text-white/80 tracking-wider">Ongkos Kirim</span>
                   <span className="font-mono tracking-widest">IDR {shippingCost.toLocaleString('id-ID')}</span>
                 </div>
                 <div className="h-px bg-white/10 my-6"></div>
                 <div className="flex justify-between items-end">
-                  <span className="text-sm tracking-[0.2em] uppercase font-bold text-white/80">Total</span>
+                  <span className="text-sm tracking-[0.2em] uppercase font-bold text-black dark:text-white/80">Total</span>
                   <span className="font-mono text-xl tracking-widest">IDR {finalTotal.toLocaleString('id-ID')}</span>
                 </div>
               </div>
@@ -347,7 +347,7 @@ export default function Cart() {
               >
                 {loading ? 'Memproses...' : 'Selesaikan Pembayaran'}
               </button>
-              <p className="text-[10px] text-white/50 text-center mt-6 tracking-widest uppercase leading-relaxed">
+              <p className="text-[10px] text-black dark:text-white/50 text-center mt-6 tracking-widest uppercase leading-relaxed">
                 Terintegrasi dengan gerbang pembayaran aman Midtrans.
               </p>
             </div>

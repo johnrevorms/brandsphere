@@ -60,7 +60,7 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white pt-24 pb-12">
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="w-40 h-4 bg-white/10 rounded mb-8 animate-pulse"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
@@ -89,12 +89,12 @@ export default function ProductDetail() {
   if (!product) return null;
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-12">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4">
         
         <button 
           onClick={() => navigate('/products')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-bold"
+          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-bold"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali ke Koleksi
         </button>
@@ -103,7 +103,7 @@ export default function ProductDetail() {
           
           {/* Image Gallery */}
           <div className="flex flex-col gap-4">
-            <div className="aspect-[3/4] bg-gray-900 rounded-3xl overflow-hidden relative">
+            <div className="aspect-[3/4] bg-gray-50 dark:bg-gray-900 rounded-3xl overflow-hidden relative">
               {product.image_path ? (
                 <img 
                   src={`http://localhost:8000/storage/${product.image_path}`} 
@@ -114,7 +114,7 @@ export default function ProductDetail() {
                 <div className="w-full h-full flex items-center justify-center text-gray-600">No Image</div>
               )}
               {product.stock_status === 'Out of Stock' && (
-                <div className="absolute top-6 left-6 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg shadow-red-500/20">
+                <div className="absolute top-6 left-6 bg-red-500 text-black dark:text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg shadow-red-500/20">
                   Sold Out
                 </div>
               )}
@@ -123,21 +123,21 @@ export default function ProductDetail() {
 
           {/* Product Info */}
           <div className="flex flex-col py-4">
-            <div className="border-b border-white/10 pb-8 mb-8">
-              <p className="text-gray-500 font-mono tracking-widest text-sm mb-4">{product.category}</p>
+            <div className="border-b border-black/10 dark:border-white/10 pb-8 mb-8">
+              <p className="text-gray-600 dark:text-gray-500 font-mono tracking-widest text-sm mb-4">{product.category}</p>
               <h1 className="text-4xl lg:text-6xl font-bold italic tracking-wider mb-6">{product.name}</h1>
-              <p className="text-2xl font-mono text-gray-300">Rp {product.price.toLocaleString('id-ID')}</p>
+              <p className="text-2xl font-mono text-gray-700 dark:text-gray-300">Rp {product.price.toLocaleString('id-ID')}</p>
             </div>
 
-            <div className="prose prose-invert prose-lg text-gray-400 mb-10">
+            <div className="prose prose-invert prose-lg text-gray-600 dark:text-gray-400 mb-10">
               <p className="whitespace-pre-line">{product.description || "Tidak ada deskripsi lengkap untuk produk ini. Terbuat dari material berkualitas tinggi dengan potongan eksklusif Arcanum."}</p>
             </div>
 
             {/* Size Selector */}
             <div className="mb-8">
               <div className="flex justify-between items-end mb-4">
-                <span className="text-sm font-bold uppercase tracking-widest text-gray-400">Pilih Ukuran</span>
-                <span className="text-xs text-gray-500 underline cursor-pointer hover:text-white transition">Size Guide</span>
+                <span className="text-sm font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400">Pilih Ukuran</span>
+                <span className="text-xs text-gray-600 dark:text-gray-500 underline cursor-pointer hover:text-black dark:hover:text-white transition">Size Guide</span>
               </div>
               <div className="flex gap-4">
                 {sizes.map(size => (
@@ -146,8 +146,8 @@ export default function ProductDetail() {
                     onClick={() => setSelectedSize(size)}
                     className={`w-14 h-14 rounded-full font-mono flex items-center justify-center border transition-all ${
                       selectedSize === size 
-                        ? 'border-white bg-white text-black' 
-                        : 'border-white/20 text-gray-400 hover:border-white/50'
+                        ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' 
+                        : 'border-black/20 dark:border-white/20 text-gray-600 dark:text-gray-400 hover:border-black/50 dark:hover:border-white/50'
                     }`}
                   >
                     {size}
@@ -161,20 +161,20 @@ export default function ProductDetail() {
               <button 
                 disabled={product.stock_status === 'Out of Stock'}
                 onClick={handleAddToCart}
-                className="flex-1 bg-white text-black py-4 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-black dark:bg-white text-white dark:text-black py-4 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {product.stock_status === 'Out of Stock' ? 'Sold Out' : 'Add to Cart'}
               </button>
             </div>
 
-            <div className="mt-8 border-t border-white/10 pt-8 grid grid-cols-2 gap-4 text-xs text-gray-500 font-mono">
+            <div className="mt-8 border-t border-black/10 dark:border-white/10 pt-8 grid grid-cols-2 gap-4 text-xs text-gray-600 dark:text-gray-500 font-mono">
               <div className="flex flex-col gap-1">
-                <span className="uppercase font-bold tracking-widest text-gray-400">Pengiriman</span>
+                <span className="uppercase font-bold tracking-widest text-gray-600 dark:text-gray-400">Pengiriman</span>
                 <span>Seluruh Indonesia via RajaOngkir</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="uppercase font-bold tracking-widest text-gray-400">Pengembalian</span>
+                <span className="uppercase font-bold tracking-widest text-gray-600 dark:text-gray-400">Pengembalian</span>
                 <span>Garansi tukar size 3 hari</span>
               </div>
             </div>

@@ -40,22 +40,22 @@ function ImageUploadField({ label, settingKey, hint, currentValue, onSaved }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-semibold text-gray-400">{label}</label>
-      {hint && <p className="text-xs text-gray-500 -mt-1">{hint}</p>}
+      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{label}</label>
+      {hint && <p className="text-xs text-gray-600 dark:text-gray-500 -mt-1">{hint}</p>}
       <div
         onClick={() => inputRef.current.click()}
-        className="relative border-2 border-dashed border-white/20 rounded-xl overflow-hidden cursor-pointer hover:border-white/50 transition group"
+        className="relative border-2 border-dashed border-black/20 dark:border-white/20 rounded-xl overflow-hidden cursor-pointer hover:border-white/50 transition group"
         style={{ minHeight: 140 }}
       >
         {preview ? (
-          <img src={preview} alt="preview" className="w-full h-36 object-contain bg-gray-800" />
+          <img src={preview} alt="preview" className="w-full h-36 object-contain bg-gray-200 dark:bg-gray-800" />
         ) : (
-          <div className="flex flex-col items-center justify-center h-36 text-gray-500 gap-2">
+          <div className="flex flex-col items-center justify-center h-36 text-gray-600 dark:text-gray-500 gap-2">
             <ImageIcon className="w-8 h-8" />
             <span className="text-xs">Klik untuk upload gambar</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <div className="absolute inset-0 bg-white dark:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
           <span className="bg-white text-black px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
             <Upload className="w-4 h-4" />
             {uploading ? 'Mengupload...' : 'Ganti Gambar'}
@@ -125,7 +125,7 @@ export default function CMSSettings() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Pengaturan Identitas</h1>
-          <p className="text-gray-400 mt-2">Logo, nama toko, sosial media, dan identitas merek.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Logo, nama toko, sosial media, dan identitas merek.</p>
         </div>
         <button
           onClick={saveAll}
@@ -140,16 +140,23 @@ export default function CMSSettings() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
         {/* Logo & Gambar */}
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 flex flex-col gap-6">
-          <h2 className="text-xl font-bold italic border-b border-white/10 pb-4 flex items-center gap-2">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 flex flex-col gap-6">
+          <h2 className="text-xl font-bold italic border-b border-black/10 dark:border-white/10 pb-4 flex items-center gap-2">
             <Palette className="w-5 h-5" /> Logo & Gambar Merek
           </h2>
           <ImageUploadField
-            label="Logo Utama"
+            label="Logo Utama (Terang / Putih)"
             settingKey="site_logo"
-            hint="Format PNG transparan. Maks 2MB."
+            hint="Format PNG transparan. Untuk Mode Gelap."
             currentValue={settings.site_logo}
             onSaved={(url) => setSettings(s => ({ ...s, site_logo: url }))}
+          />
+          <ImageUploadField
+            label="Logo Utama (Gelap / Hitam)"
+            settingKey="site_logo_dark"
+            hint="Format PNG transparan. Untuk Mode Terang."
+            currentValue={settings.site_logo_dark}
+            onSaved={(url) => setSettings(s => ({ ...s, site_logo_dark: url }))}
           />
           <ImageUploadField
             label="Favicon (ikon tab browser)"
@@ -158,11 +165,25 @@ export default function CMSSettings() {
             currentValue={settings.site_favicon}
             onSaved={(url) => setSettings(s => ({ ...s, site_favicon: url }))}
           />
+          <ImageUploadField
+            label="Maskot (Terang / Putih)"
+            settingKey="mascot_image"
+            hint="Format PNG transparan. Untuk Mode Gelap."
+            currentValue={settings.mascot_image}
+            onSaved={(url) => setSettings(s => ({ ...s, mascot_image: url }))}
+          />
+          <ImageUploadField
+            label="Maskot (Gelap / Hitam)"
+            settingKey="mascot_image_dark"
+            hint="Format PNG transparan. Untuk Mode Terang."
+            currentValue={settings.mascot_image_dark}
+            onSaved={(url) => setSettings(s => ({ ...s, mascot_image_dark: url }))}
+          />
         </div>
 
         {/* Identitas Toko */}
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 flex flex-col gap-6">
-          <h2 className="text-xl font-bold italic border-b border-white/10 pb-4 flex items-center gap-2">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 flex flex-col gap-6">
+          <h2 className="text-xl font-bold italic border-b border-black/10 dark:border-white/10 pb-4 flex items-center gap-2">
             <Globe className="w-5 h-5" /> Identitas Toko & Sosmed
           </h2>
           {[
@@ -174,13 +195,13 @@ export default function CMSSettings() {
             { key: 'whatsapp_url', label: 'WhatsApp URL / Nomor', placeholder: 'https://wa.me/6281234567890' },
           ].map(({ key, label, placeholder }) => (
             <div key={key} className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-400">{label}</label>
+              <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{label}</label>
               <input
                 type="text"
                 value={form[key]}
                 onChange={e => updateForm(key, e.target.value)}
                 placeholder={placeholder}
-                className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition"
+                className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition"
               />
             </div>
           ))}

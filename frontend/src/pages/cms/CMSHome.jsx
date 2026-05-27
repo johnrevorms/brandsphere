@@ -42,21 +42,21 @@ function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-semibold text-gray-400">{label}</label>
+      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{label}</label>
       <div
-        className="relative border-2 border-dashed border-white/20 rounded-xl overflow-hidden cursor-pointer hover:border-white/50 transition group"
+        className="relative border-2 border-dashed border-black/20 dark:border-white/20 rounded-xl overflow-hidden cursor-pointer hover:border-white/50 transition group"
         style={{ minHeight: '140px' }}
         onClick={() => inputRef.current.click()}
       >
         {preview ? (
           <img src={preview} alt="preview" className="w-full h-40 object-cover" />
         ) : (
-          <div className="flex flex-col items-center justify-center h-40 text-gray-500 gap-2">
+          <div className="flex flex-col items-center justify-center h-40 text-gray-600 dark:text-gray-500 gap-2">
             <ImageIcon className="w-8 h-8" />
             <span className="text-xs">Klik untuk upload gambar</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <div className="absolute inset-0 bg-white dark:bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
           <div className="bg-white text-black px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
             <Upload className="w-4 h-4" />
             {uploading ? 'Mengupload...' : 'Ganti Gambar'}
@@ -149,7 +149,7 @@ export default function CMSHome() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold italic tracking-wider">Kelola Beranda</h1>
-          <p className="text-gray-400 mt-2">Atur gambar banner, logo, teks berjalan, dan seksi promosi.</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Atur gambar banner, logo, teks berjalan, dan seksi promosi.</p>
         </div>
         <button
           onClick={saveTextSettings}
@@ -164,8 +164,8 @@ export default function CMSHome() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
         {/* Logo & Hero */}
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 flex flex-col gap-6">
-          <h2 className="text-xl font-bold italic border-b border-white/10 pb-4">1. Logo & Hero Utama</h2>
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 flex flex-col gap-6">
+          <h2 className="text-xl font-bold italic border-b border-black/10 dark:border-white/10 pb-4">1. Logo & Hero Utama</h2>
 
           <ImageUploader
             label="Logo Utama (format PNG transparan)"
@@ -182,28 +182,28 @@ export default function CMSHome() {
           />
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-400">Teks Marquee (Berjalan)</label>
+            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teks Marquee (Berjalan)</label>
             <input
               type="text"
               value={marquee}
               onChange={e => setMarquee(e.target.value)}
-              className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition"
+              className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition"
               placeholder="Contoh: ONE MORE ·"
             />
           </div>
         </div>
 
         {/* Bagian Bawah */}
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 flex flex-col gap-6">
-          <h2 className="text-xl font-bold italic border-b border-white/10 pb-4">3. Seksi Bawah (Enter The Unknown)</h2>
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 flex flex-col gap-6">
+          <h2 className="text-xl font-bold italic border-b border-black/10 dark:border-white/10 pb-4">3. Seksi Bawah (Enter The Unknown)</h2>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-400">Judul Besar (pisah baris dengan Enter)</label>
+            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Judul Besar (pisah baris dengan Enter)</label>
             <textarea
               rows={3}
               value={bottomTitle}
               onChange={e => setBottomTitle(e.target.value)}
-              className="bg-black border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-white transition resize-none"
+              className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white transition resize-none"
             />
           </div>
 
@@ -216,12 +216,12 @@ export default function CMSHome() {
         </div>
 
         {/* Promosi Section */}
-        <div className="bg-gray-900 border border-white/10 rounded-3xl p-8 flex flex-col gap-6 md:col-span-2">
-          <div className="flex justify-between items-center border-b border-white/10 pb-4">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 flex flex-col gap-6 md:col-span-2">
+          <div className="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
             <h2 className="text-xl font-bold italic">2. Seksi Promosi (bisa ditambah banyak)</h2>
             <button
               onClick={addPromo}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-sm font-semibold transition"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-black dark:text-white px-4 py-2 rounded-xl text-sm font-semibold transition"
             >
               <Plus className="w-4 h-4" /> Tambah Promosi
             </button>
@@ -229,9 +229,9 @@ export default function CMSHome() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {promos.map((promo, idx) => (
-              <div key={idx} className="bg-black/30 border border-white/10 rounded-2xl p-5 flex flex-col gap-4">
+              <div key={idx} className="bg-white dark:bg-black/30 border border-black/10 dark:border-white/10 rounded-2xl p-5 flex flex-col gap-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-gray-300">Promosi #{idx + 1}</span>
+                  <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Promosi #{idx + 1}</span>
                   {promos.length > 1 && (
                     <button onClick={() => removePromo(idx)} className="text-red-400 hover:text-red-300 transition">
                       <Trash2 className="w-4 h-4" />
@@ -240,12 +240,12 @@ export default function CMSHome() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">Judul Promosi</label>
+                  <label className="text-xs text-gray-600 dark:text-gray-400">Judul Promosi</label>
                   <input
                     type="text"
                     value={promo.title}
                     onChange={e => updatePromoTitle(idx, e.target.value)}
-                    className="bg-black border border-white/20 rounded-lg p-2 text-white text-sm focus:outline-none focus:border-white transition"
+                    className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-2 text-black dark:text-white text-sm focus:outline-none focus:border-white transition"
                   />
                 </div>
 
