@@ -102,12 +102,12 @@ export default function Home() {
           return (
             <div
               key={idx}
-              className="relative aspect-square md:aspect-auto md:h-[60vh] bg-gray-900 flex flex-col justify-end p-8 sm:p-12 bg-cover bg-center group"
+              className="relative aspect-[4/3] sm:aspect-square md:aspect-auto md:h-[60vh] bg-gray-900 flex flex-col justify-end p-6 sm:p-12 bg-cover bg-center group"
               style={{ backgroundImage: promo.image ? `url(${promo.image})` : 'none' }}
             >
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-500"></div>
               <div className="relative z-10 flex flex-col items-start text-white">
-                <h2 className="text-3xl sm:text-4xl italic font-bold mb-4 drop-shadow-lg uppercase">{promo.title}</h2>
+                <h2 className="text-2xl sm:text-4xl italic font-bold mb-3 sm:mb-4 drop-shadow-lg uppercase">{promo.title}</h2>
                 <Link to={linkPath} className={buttonStyle}>
                   {linkLabel}
                 </Link>
@@ -128,24 +128,24 @@ export default function Home() {
               <img
                 src={theme === 'light' && settings.mascot_image_dark ? `http://localhost:8000/storage/${settings.mascot_image_dark}` : `http://localhost:8000/storage/${settings.mascot_image}`}
                 alt="Arcanum Mascot"
-                className="w-full max-h-[75vh] object-contain transition-transform duration-700 group-hover:scale-105"
+                className="w-full max-h-[50vh] md:max-h-[75vh] object-contain transition-transform duration-700 group-hover:scale-105"
               />
             ) : (
-              <div className="w-full h-[60vh] bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-black/50 dark:text-white/20 italic font-mono uppercase tracking-widest">
+              <div className="w-full h-[40vh] md:h-[60vh] bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-black/50 dark:text-white/20 italic font-mono uppercase tracking-widest">
                 No Mascot Image
               </div>
             )}
           </div>
 
           {/* Title Area (Right) */}
-          <div className="flex flex-col justify-center items-start text-left md:col-span-5">
-            <h2 className="text-5xl sm:text-7xl md:text-8xl font-black italic tracking-tighter uppercase whitespace-pre-line leading-none text-black dark:text-white drop-shadow-2xl">
+          <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:col-span-5 px-4 md:px-0">
+            <h2 className="text-3xl md:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase whitespace-pre-line leading-none text-black dark:text-white drop-shadow-2xl">
               {settings.bottom_title || "ENTER\nTHE UNKNOWN"}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mt-6 max-w-md text-sm sm:text-base tracking-wider">
               Manifestation of streetwear, dark aesthetic, and raw subculture expression. Uncompromising standards of urban clothing.
             </p>
-            <Link to="/tentang" className="bg-black dark:bg-white text-white dark:text-black px-10 py-3.5 rounded-full font-bold tracking-widest uppercase hover:bg-gray-800 dark:hover:bg-gray-300 transition-colors mt-8 text-sm">
+            <Link to="/about" className="bg-black dark:bg-white text-white dark:text-black px-10 py-2.5 rounded-full font-bold tracking-widest uppercase hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors mt-8 text-sm inline-block">
               LEARN MORE
             </Link>
           </div>
@@ -153,13 +153,13 @@ export default function Home() {
       </div>
 
       {/* Top Seller Section */}
-      <div className="max-w-[1400px] mx-auto w-full px-6 pt-6 pb-24 flex flex-col items-center">
+      <div className="max-w-[1400px] mx-auto w-full px-6 md:px-12 lg:px-16 pt-6 pb-24 flex flex-col items-center">
         <h2 className="text-3xl sm:text-4xl italic font-bold mb-6 uppercase">TOP SELLER</h2>
         <Link to="/products" className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors rounded-full px-10 py-2.5 text-sm font-bold uppercase tracking-widest mb-16">
           SHOP
         </Link>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full">
           {loadingProducts ? (
             Array(4).fill(0).map((_, i) => (
               <div key={i} className="animate-pulse flex flex-col">
@@ -178,9 +178,9 @@ export default function Home() {
                     <div className="w-full h-full flex items-center justify-center text-gray-700">No Image</div>
                   )}
                 </div>
-                <h3 className="font-bold italic text-lg line-clamp-1">{item.name}</h3>
-                <p className="text-gray-700 dark:text-gray-300 font-mono mb-1">Rp {item.price.toLocaleString('id-ID')}</p>
-                {item.stock_status === 'Out of Stock' && <span className="text-xs text-red-500 font-bold uppercase tracking-widest mt-1">Out of Stock</span>}
+                <h3 className="font-bold italic text-sm md:text-lg line-clamp-1">{item.name}</h3>
+                <p className="text-gray-700 dark:text-gray-300 font-mono text-xs md:text-base mb-1">Rp {item.price.toLocaleString('id-ID')}</p>
+                {item.stock_status === 'Out of Stock' && <span className="text-[10px] md:text-xs text-red-500 font-bold uppercase tracking-widest mt-1">Out of Stock</span>}
               </Link>
             ))
           )}

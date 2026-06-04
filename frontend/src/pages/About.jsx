@@ -45,7 +45,7 @@ export default function About() {
     return (
       <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-20">
         <div className="w-full h-[50vh] bg-white/5 animate-pulse mb-16"></div>
-        <div className="max-w-3xl mx-auto px-4 animate-pulse">
+        <div className="max-w-3xl mx-auto px-6 md:px-10 animate-pulse">
           <div className="w-full h-12 bg-white/10 rounded mb-6"></div>
           <div className="w-2/3 h-12 bg-white/10 rounded mb-6"></div>
           <div className="w-full h-8 bg-white/10 rounded mb-12"></div>
@@ -75,7 +75,7 @@ export default function About() {
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-6 md:px-10">
         {/* Title */}
         <h1 className="text-5xl md:text-6xl font-bold italic tracking-wide leading-tight mb-6">
           {renderTitle()}

@@ -60,7 +60,7 @@ export default function ArticleDetail() {
             alt={article.title}
             className="w-full h-full object-cover opacity-70"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 dark:from-black dark:via-black/50 to-transparent"></div>
         </div>
       )}
 
@@ -88,14 +88,14 @@ export default function ArticleDetail() {
           </p>
         )}
 
-        <div className="h-px bg-white/10 mb-12"></div>
+        <div className="h-px bg-black/10 dark:bg-white/10 mb-12"></div>
 
         {/* Content */}
         <div className="prose prose-invert prose-lg max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
           {article.content}
         </div>
 
-        <div className="h-px bg-white/10 mt-16 mb-10"></div>
+        <div className="h-px bg-black/10 dark:bg-white/10 mt-16 mb-10"></div>
 
         {/* Footer nav */}
         <Link to="/blog" className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase hover:gap-3 transition-all">

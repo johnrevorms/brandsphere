@@ -20,7 +20,14 @@ export default function AdminOrders() {
 
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      await api.put(`/orders/${id}/status`, { status: newStatus });
+      let payload = { status: newStatus };
+      if (newStatus === 'Sudah Dikirim') {
+        const resi = prompt('Masukkan Nomor Resi pengiriman (Bisa dikosongkan):');
+        if (resi !== null) {
+          payload.tracking_number = resi;
+        }
+      }
+      await api.put(`/orders/${id}/status`, payload);
       fetchOrders();
     } catch (e) {
       console.error(e);
@@ -37,8 +44,8 @@ export default function AdminOrders() {
         </div>
       </div>
 
-      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl overflow-hidden">
-        <table className="w-full text-left border-collapse">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-xl md:rounded-3xl overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[800px]">
           <thead className="bg-white dark:bg-black/50 border-b border-black/10 dark:border-white/10">
             <tr>
               <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">ID Pesanan</th>
@@ -73,6 +80,12 @@ export default function AdminOrders() {
                       ))}
                     </ul>
                   </div>
+                  {order.tracking_number && (
+                    <div className="mt-2 text-xs text-gray-700 dark:text-gray-300">
+                      <p className="font-bold border-t border-black/10 dark:border-white/10 pt-2">No. Resi:</p>
+                      <p className="font-mono text-black dark:text-white">{order.tracking_number}</p>
+                    </div>
+                  )}
                 </td>
                 <td className="p-4 font-mono">Rp {order.total_price.toLocaleString('id-ID')}</td>
                 <td className="p-4">

@@ -18,7 +18,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-12 mt-16 border-t border-black/10 dark:border-white/10">
+    <footer className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 sm:px-8 py-12 mt-16 border-t border-black/10 dark:border-white/10">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
         
         {/* Left Side - Socials & Links */}
@@ -82,7 +82,7 @@ export default function Footer() {
         </div>
 
         {/* Right Side - Links */}
-        <div className="w-full md:w-auto flex flex-col gap-4 text-right">
+        <div className="w-full md:w-auto flex flex-col gap-4 text-left md:text-right">
           <div className="flex flex-col gap-3 text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">
             <Link to="/refund" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">Refund Policy</Link>
             <Link to="/how-to-order" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">How to order</Link>

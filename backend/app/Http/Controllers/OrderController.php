@@ -110,9 +110,15 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $request->validate(['status' => 'required|string']);
+        $request->validate([
+            'status' => 'required|string',
+            'tracking_number' => 'nullable|string'
+        ]);
         $order = Order::findOrFail($id);
         $order->status = $request->status;
+        if ($request->has('tracking_number')) {
+            $order->tracking_number = $request->tracking_number;
+        }
         $order->save();
         return response()->json(['message' => 'Status updated', 'order' => $order]);
     }

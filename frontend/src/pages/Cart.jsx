@@ -34,9 +34,16 @@ export default function Cart() {
     setSelectedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
 
+  const [shippingError, setShippingError] = useState(null);
+
   useEffect(() => {
     // Fetch provinces
-    api.get('/shipping/provinces').then(res => setProvinces(res.data)).catch(console.error);
+    api.get('/shipping/provinces')
+      .then(res => setProvinces(res.data))
+      .catch(err => {
+        console.error(err);
+        setShippingError('Gagal terhubung ke API Pengiriman (RajaOngkir). Mungkin API sedang gangguan atau timeout.');
+      });
   }, []);
 
   useEffect(() => {
@@ -149,7 +156,7 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-12 px-4 flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-12 px-6 md:px-12 lg:px-16 flex flex-col items-center justify-center">
         <ShoppingCart className="w-16 h-16 text-black dark:text-white/40 mb-8" strokeWidth={1} />
         <h1 className="text-2xl font-light tracking-[0.2em] uppercase mb-4 text-center">Keranjang Kosong</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-10 text-center text-sm tracking-widest font-light">Belum ada mahakarya yang Anda pilih.</p>
@@ -162,7 +169,7 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-32 pb-24">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16">
         <h1 className="text-3xl md:text-5xl font-light tracking-[0.15em] uppercase mb-16 text-center">
           <span className="font-bold italic">Keranjang Belanja</span>
         </h1>
@@ -187,11 +194,12 @@ export default function Cart() {
                 </label>
               </div>
               {cart.map((item) => (
-                <div key={item.cartItemId || item.id} className="flex gap-4 md:gap-8 bg-white/[0.01] hover:bg-white/[0.02] transition-colors p-4 md:p-6 border-b border-black/10 dark:border-white/10 group">
+                <div key={item.cartItemId || item.id} className="flex gap-2.5 md:gap-8 bg-white/[0.01] hover:bg-white/[0.02] transition-colors p-3 md:p-6 border-b border-black/10 dark:border-white/10 group">
+                  {/* Checkbox */}
                   <div className="flex items-center justify-center">
-                    <label className="cursor-pointer group p-2">
-                      <div className={`w-5 h-5 flex items-center justify-center border transition-all duration-300 ${(selectedItems.includes(item.cartItemId || item.id)) ? 'bg-white border-white' : 'border-white/50 group-hover:border-white/90'}`}>
-                        {(selectedItems.includes(item.cartItemId || item.id)) && <div className="w-2.5 h-2.5 bg-white dark:bg-black" />}
+                    <label className="cursor-pointer group p-1">
+                      <div className={`w-4 h-4 md:w-5 md:h-5 flex items-center justify-center border transition-all duration-300 ${(selectedItems.includes(item.cartItemId || item.id)) ? 'bg-black border-black dark:bg-white dark:border-white' : 'border-black/30 dark:border-white/50 group-hover:border-black/70 dark:group-hover:border-white/90'}`}>
+                        {(selectedItems.includes(item.cartItemId || item.id)) && <div className="w-2 h-2 bg-white dark:bg-black" />}
                       </div>
                       <input type="checkbox" className="hidden"
                         checked={selectedItems.includes(item.cartItemId || item.id)}
@@ -199,34 +207,36 @@ export default function Cart() {
                       />
                     </label>
                   </div>
-                  <div className="w-28 h-36 bg-white/5 overflow-hidden flex-shrink-0">
+                  
+                  {/* Image */}
+                  <div className="w-16 h-24 md:w-28 md:h-36 bg-gray-100 dark:bg-white/5 overflow-hidden flex-shrink-0 relative">
                     {item.image_path ? (
                       <img src={`http://localhost:8000/storage/${item.image_path}`} alt={item.name} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs text-black dark:text-white/60 tracking-widest uppercase">No Img</div>
+                      <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-400 tracking-widest uppercase">No Img</div>
                     )}
                   </div>
-                  <div className="flex-1 flex flex-col justify-between py-1">
+                  
+                  {/* Details */}
+                  <div className="flex-1 flex flex-col justify-between">
                     <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-[10px] text-black dark:text-white/70 font-mono tracking-widest uppercase mb-2">{item.category}</p>
-                        <h3 className="text-xl font-light tracking-wider uppercase">{item.name}</h3>
-                        <div className="flex items-center gap-4 mt-3">
-                          <span className="text-xs font-mono text-black dark:text-white/80 border border-white/30 px-3 py-1">Size: {item.size || 'L'}</span>
-                        </div>
+                      <div className="pr-1 md:pr-2">
+                        <p className="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-mono tracking-widest uppercase mb-1">{item.category}</p>
+                        <h3 className="text-xs md:text-lg font-medium tracking-wide uppercase line-clamp-2 leading-snug">{item.name}</h3>
+                        <p className="text-[10px] md:text-xs font-mono text-gray-600 dark:text-gray-400 mt-1 md:mt-2">Size: {item.size || 'L'}</p>
                       </div>
-                      <button onClick={() => removeFromCart(item.cartItemId || item.id)} className="text-black dark:text-white/50 hover:text-white transition-colors p-2">
-                        <Trash2 className="w-4 h-4" strokeWidth={1.5} />
+                      <button onClick={() => removeFromCart(item.cartItemId || item.id)} className="text-gray-400 hover:text-red-500 transition-colors p-1 md:p-2" title="Hapus Produk">
+                        <Trash2 className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
                       </button>
                     </div>
 
-                    <div className="flex items-center justify-between mt-6 border-t border-black/10 dark:border-white/10 pt-4">
-                      <p className="font-mono text-sm tracking-widest text-black dark:text-white/90">IDR {item.price.toLocaleString('id-ID')}</p>
+                    <div className="flex items-center justify-between mt-3 md:mt-6 border-t border-black/5 dark:border-white/10 pt-3 md:pt-4">
+                      <p className="font-mono text-xs md:text-sm tracking-widest font-bold">IDR {item.price.toLocaleString('id-ID')}</p>
 
-                      <div className="flex items-center gap-4 bg-transparent">
-                        <button onClick={() => updateQuantity(item.cartItemId || item.id, -1)} className="text-black dark:text-white/70 hover:text-white transition-colors p-1"><Minus className="w-3 h-3" strokeWidth={1.5} /></button>
-                        <span className="font-mono text-sm w-6 text-center">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.cartItemId || item.id, 1)} className="text-black dark:text-white/70 hover:text-white transition-colors p-1"><Plus className="w-3 h-3" strokeWidth={1.5} /></button>
+                      <div className="flex items-center gap-3 md:gap-4 bg-gray-100 dark:bg-white/5 rounded-full px-2 py-1 md:px-3 md:py-1.5 border border-black/5 dark:border-white/10">
+                        <button onClick={() => updateQuantity(item.cartItemId || item.id, -1)} className="text-gray-500 hover:text-black dark:hover:text-white transition-colors p-1"><Minus className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={2} /></button>
+                        <span className="font-mono text-xs md:text-sm w-4 md:w-5 text-center font-bold">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.cartItemId || item.id, 1)} className="text-gray-500 hover:text-black dark:hover:text-white transition-colors p-1"><Plus className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={2} /></button>
                       </div>
                     </div>
                   </div>
@@ -235,8 +245,14 @@ export default function Cart() {
             </div>
 
             {/* Shipping Form */}
-            <div className="space-y-8 bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-8 md:p-10">
+            <div className="space-y-8 bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-6 md:p-10">
               <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70 border-b border-black/20 dark:border-white/20 pb-4">Info Pengiriman</h2>
+
+              {shippingError && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 text-sm font-bold">
+                  {shippingError}
+                </div>
+              )}
 
               <div className="space-y-6">
                 <div>
@@ -321,7 +337,7 @@ export default function Cart() {
           </div>
 
           <div className="w-full lg:w-[400px]">
-            <div className="bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-8 md:p-10 sticky top-32">
+            <div className="bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-6 md:p-10 sticky top-32">
               <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70 border-b border-black/20 dark:border-white/20 pb-4 mb-8">Ringkasan Pesanan</h2>
 
               <div className="space-y-5 mb-10">

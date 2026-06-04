@@ -91,7 +91,7 @@ export default function AdminProducts() {
         </div>
       </div>
 
-      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl p-8 mb-8">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-xl md:rounded-3xl p-6 md:p-8 mb-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold italic">{editingId ? 'Edit Produk' : 'Formulir Tambah Produk'}</h2>
           {editingId && (
@@ -144,15 +144,15 @@ export default function AdminProducts() {
             <input type="file" onChange={e => setImage(e.target.files[0])} accept="image/*" className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white" />
           </div>
           <div className="md:col-span-2 flex justify-end gap-4 mt-4">
-            <button type="submit" className="px-6 py-2 rounded-lg bg-white text-black hover:bg-gray-200 font-bold italic">
+            <button type="submit" className="px-6 py-2 rounded-lg bg-white text-black hover:bg-gray-200 font-bold italic w-full sm:w-auto">
               {editingId ? 'Simpan Perubahan' : 'Simpan Produk'}
             </button>
           </div>
         </form>
       </div>
 
-      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-3xl overflow-hidden">
-        <table className="w-full text-left">
+      <div className="bg-gray-50 dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-xl md:rounded-3xl overflow-x-auto">
+        <table className="w-full text-left min-w-[800px]">
           <thead className="bg-white dark:bg-black/50 border-b border-black/10 dark:border-white/10">
             <tr>
               <th className="p-4 font-semibold text-gray-600 dark:text-gray-400">Produk</th>

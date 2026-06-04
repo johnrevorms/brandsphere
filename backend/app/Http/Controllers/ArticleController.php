@@ -20,12 +20,19 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title'    => 'required|string|max:255',
-            'subtitle' => 'nullable|string',
-            'content'  => 'required|string',
-            'image'    => 'nullable|image|max:4096',
-        ]);
+        \Illuminate\Support\Facades\Log::info("Article store called", $request->all());
+        
+        try {
+            $data = $request->validate([
+                'title'    => 'required|string|max:255',
+                'subtitle' => 'nullable|string',
+                'content'  => 'required|string',
+                'image'    => 'nullable|image|max:4096',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Illuminate\Support\Facades\Log::error("Validation failed: " . json_encode($e->errors()));
+            throw $e;
+        }
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('articles', 'public');

@@ -13,7 +13,7 @@ class Order extends Model
         'user_id', 'status', 'total_price', 
         'shipping_address', 'shipping_city_id', 'shipping_province_id', 
         'shipping_courier', 'shipping_service', 'shipping_cost', 
-        'midtrans_transaction_id'
+        'midtrans_transaction_id', 'tracking_number'
     ];
 
     public function items()

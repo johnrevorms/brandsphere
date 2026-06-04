@@ -24,7 +24,7 @@ export default function HowToOrder() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-28 pb-20">
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-6 md:px-10">
         <p className="text-xs tracking-[0.4em] uppercase text-gray-600 dark:text-gray-500 font-mono mb-4 text-center">— Panduan —</p>
         <h1 className="text-5xl italic font-bold mb-4 uppercase tracking-widest text-center">How to Order</h1>
         <p className="text-gray-600 dark:text-gray-400 text-center mb-16">Memesan dari Arcanum semudah ini.</p>

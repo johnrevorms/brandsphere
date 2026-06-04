@@ -61,7 +61,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="w-40 h-4 bg-white/10 rounded mb-8 animate-pulse"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
             <div className="aspect-[3/4] bg-white/5 rounded-3xl animate-pulse"></div>
@@ -90,7 +90,7 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         
         <button 
           onClick={() => navigate('/products')}

@@ -64,6 +64,19 @@ export default function Orders() {
                   ))}
                 </div>
 
+                {order.tracking_number && (
+                  <div className="mt-4 p-4 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <div>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-widest font-bold">No. Resi Pengiriman</p>
+                      <p className="font-mono text-lg font-bold tracking-wider mt-1 text-black dark:text-white">{order.tracking_number}</p>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-widest font-bold">Kurir</p>
+                      <p className="font-bold text-sm uppercase mt-1 text-black dark:text-white">{order.shipping_courier} - {order.shipping_service}</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-6 pt-4 border-t border-black/10 dark:border-white/10 flex justify-between items-center">
                   <p className="text-gray-600 dark:text-gray-400 uppercase tracking-widest text-sm font-bold">Total Pembayaran</p>
                   <p className="font-mono text-xl font-bold text-black dark:text-white">Rp {order.total_price.toLocaleString('id-ID')}</p>

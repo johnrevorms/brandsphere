@@ -11,31 +11,31 @@ class ShippingController extends Controller
     public function getProvinces()
     {
         try {
-            $response = Http::timeout(5)->withHeaders([
+            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
                 'key' => config('services.rajaongkir.key')
             ])->get('https://api.rajaongkir.com/starter/province');
 
             if ($response->successful()) {
                 return response()->json($response['rajaongkir']['results'] ?? []);
             }
+            
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockProvinces();
+            }
+            return response()->json(['error' => 'Gagal mengambil data provinsi dari API.'], 500);
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockProvinces();
+            }
+            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
         }
-
-        // Fallback mock data
-        return response()->json([
-            ['province_id' => '1', 'province' => 'DKI Jakarta'],
-            ['province_id' => '2', 'province' => 'Jawa Barat'],
-            ['province_id' => '3', 'province' => 'Jawa Tengah'],
-            ['province_id' => '4', 'province' => 'DI Yogyakarta'],
-            ['province_id' => '5', 'province' => 'Jawa Timur']
-        ]);
     }
 
     public function getCities($provinceId)
     {
         try {
-            $response = Http::timeout(5)->withHeaders([
+            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
                 'key' => config('services.rajaongkir.key')
             ])->get('https://api.rajaongkir.com/starter/city', [
                 'province' => $provinceId
@@ -44,18 +44,18 @@ class ShippingController extends Controller
             if ($response->successful()) {
                 return response()->json($response['rajaongkir']['results'] ?? []);
             }
+
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockCities();
+            }
+            return response()->json(['error' => 'Gagal mengambil data kota dari API.'], 500);
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockCities();
+            }
+            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
         }
-
-        // Fallback mock data
-        return response()->json([
-            ['city_id' => '1', 'type' => 'Kota', 'city_name' => 'Jakarta Pusat'],
-            ['city_id' => '2', 'type' => 'Kota', 'city_name' => 'Bandung'],
-            ['city_id' => '3', 'type' => 'Kota', 'city_name' => 'Semarang'],
-            ['city_id' => '4', 'type' => 'Kota', 'city_name' => 'Yogyakarta'],
-            ['city_id' => '5', 'type' => 'Kota', 'city_name' => 'Surabaya']
-        ]);
     }
 
     public function getCost(Request $request)
@@ -68,7 +68,7 @@ class ShippingController extends Controller
         ]);
 
         try {
-            $response = Http::timeout(5)->withHeaders([
+            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
                 'key' => config('services.rajaongkir.key')
             ])->post('https://api.rajaongkir.com/starter/cost', [
                 'origin' => $request->origin,
@@ -80,33 +80,44 @@ class ShippingController extends Controller
             if ($response->successful()) {
                 return response()->json($response['rajaongkir']['results'][0]['costs'] ?? []);
             }
+
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockCost();
+            }
+            return response()->json(['error' => 'Gagal menghitung ongkos kirim.'], 500);
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
+            if (app()->environment('local', 'testing')) {
+                return $this->getMockCost();
+            }
+            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
         }
+    }
 
-        // Fallback mock data
+    private function getMockProvinces()
+    {
+        return response()->json([
+            ['province_id' => '1', 'province' => '[DEV] DKI Jakarta'],
+            ['province_id' => '2', 'province' => '[DEV] Jawa Barat'],
+            ['province_id' => '3', 'province' => '[DEV] Jawa Tengah']
+        ]);
+    }
+
+    private function getMockCities()
+    {
+        return response()->json([
+            ['city_id' => '1', 'type' => 'Kota', 'city_name' => '[DEV] Jakarta Pusat'],
+            ['city_id' => '2', 'type' => 'Kota', 'city_name' => '[DEV] Bandung']
+        ]);
+    }
+
+    private function getMockCost()
+    {
         return response()->json([
             [
-                'service' => 'REG',
-                'description' => 'Layanan Reguler',
-                'cost' => [
-                    [
-                        'value' => 15000,
-                        'etd' => '2-3',
-                        'note' => ''
-                    ]
-                ]
-            ],
-            [
-                'service' => 'YES',
-                'description' => 'Yakin Esok Sampai',
-                'cost' => [
-                    [
-                        'value' => 25000,
-                        'etd' => '1-1',
-                        'note' => ''
-                    ]
-                ]
+                'service' => 'REG (DEV)',
+                'description' => 'Layanan Reguler (Dummy)',
+                'cost' => [['value' => 15000, 'etd' => '2-3', 'note' => '']]
             ]
         ]);
     }

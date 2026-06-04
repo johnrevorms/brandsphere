@@ -61,7 +61,12 @@ export default function CMSBlog() {
       fetchArticles();
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan artikel. Pastikan sudah login.');
+      const serverMessage = e.response?.data?.message;
+      if (serverMessage) {
+        alert('Gagal menyimpan: ' + serverMessage);
+      } else {
+        alert('Gagal menyimpan artikel. Pastikan sudah login atau cek koneksi Anda.');
+      }
     } finally {
       setSubmitting(false);
     }
