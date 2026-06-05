@@ -106,7 +106,7 @@ export default function ProductDetail() {
             <div className="aspect-[3/4] bg-gray-50 dark:bg-gray-900 rounded-3xl overflow-hidden relative">
               {product.image_path ? (
                 <img 
-                  src={`http://localhost:8000/storage/${product.image_path}`} 
+                  src={`${import.meta.env.VITE_STORAGE_URL}${product.image_path}`} 
                   alt={product.name} 
                   className="w-full h-full object-cover"
                 />

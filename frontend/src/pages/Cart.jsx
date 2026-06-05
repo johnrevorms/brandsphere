@@ -211,7 +211,7 @@ export default function Cart() {
                   {/* Image */}
                   <div className="w-16 h-24 md:w-28 md:h-36 bg-gray-100 dark:bg-white/5 overflow-hidden flex-shrink-0 relative">
                     {item.image_path ? (
-                      <img src={`http://localhost:8000/storage/${item.image_path}`} alt={item.name} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" />
+                      <img src={`${import.meta.env.VITE_STORAGE_URL}${item.image_path}`} alt={item.name} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-400 tracking-widest uppercase">No Img</div>
                     )}

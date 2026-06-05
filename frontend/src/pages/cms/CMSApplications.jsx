@@ -168,7 +168,7 @@ export default function CMSApplications() {
                     {/* CV Download / View */}
                     <td className="p-5">
                       <a
-                        href={`http://localhost:8000/storage/${app.cv_path}`}
+                        href={`${import.meta.env.VITE_STORAGE_URL}${app.cv_path}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider bg-white/5 border border-black/10 dark:border-white/10 hover:border-white/30 text-black dark:text-white px-4 py-2 rounded-xl transition hover:scale-105"

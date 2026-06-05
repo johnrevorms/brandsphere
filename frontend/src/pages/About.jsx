@@ -63,7 +63,7 @@ export default function About() {
       {settings.about_image ? (
         <div className="w-full h-[50vh] bg-gray-50 dark:bg-gray-900 overflow-hidden relative mb-16">
           <img
-            src={`http://localhost:8000/storage/${settings.about_image}`}
+            src={`${import.meta.env.VITE_STORAGE_URL}${settings.about_image}`}
             alt="Arcanum Studio"
             className="w-full h-full object-cover opacity-70"
           />

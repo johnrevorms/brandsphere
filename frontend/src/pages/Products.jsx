@@ -122,7 +122,7 @@ export default function Products() {
                 <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 dark:bg-gray-900 rounded-xl mb-3 md:mb-4 border border-black/5 dark:border-white/5">
                   {product.image_path ? (
                     <img
-                      src={`http://localhost:8000/storage/${product.image_path}`}
+                      src={`${import.meta.env.VITE_STORAGE_URL}${product.image_path}`}
                       alt={product.name}
                       className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                     />

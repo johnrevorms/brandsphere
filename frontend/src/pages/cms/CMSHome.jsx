@@ -3,7 +3,7 @@ import { Save, Upload, Plus, Trash2, ImageIcon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import api from '../../api/axios';
 
-const API_BASE = 'http://localhost:8000/storage/';
+const API_BASE = import.meta.env.VITE_STORAGE_URL;
 
 function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
   const [preview, setPreview] = useState(currentUrl || null);

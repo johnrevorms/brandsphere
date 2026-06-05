@@ -56,7 +56,7 @@ export default function ArticleDetail() {
       {article.image_path && (
         <div className="w-full h-[50vh] bg-gray-50 dark:bg-gray-900 overflow-hidden relative mb-16">
           <img
-            src={`http://localhost:8000/storage/${article.image_path}`}
+            src={`${import.meta.env.VITE_STORAGE_URL}${article.image_path}`}
             alt={article.title}
             className="w-full h-full object-cover opacity-70"
           />

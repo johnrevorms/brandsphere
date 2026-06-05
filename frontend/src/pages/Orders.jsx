@@ -51,7 +51,7 @@ export default function Orders() {
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-16 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden">
                           {item.product?.image_path && (
-                            <img src={`http://localhost:8000/storage/${item.product.image_path}`} className="w-full h-full object-cover" />
+                            <img src={`${import.meta.env.VITE_STORAGE_URL}${item.product.image_path}`} className="w-full h-full object-cover" />
                           )}
                         </div>
                         <div>

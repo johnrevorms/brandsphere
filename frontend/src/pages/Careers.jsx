@@ -44,7 +44,7 @@ export default function Careers() {
         {activeMascot ? (
           <div 
             className="w-48 h-64 md:w-64 md:h-80 mb-6 md:mb-8 flex items-center justify-center bg-contain bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(http://localhost:8000/storage/${activeMascot})` }}
+            style={{ backgroundImage: `url(${import.meta.env.VITE_STORAGE_URL}${activeMascot})` }}
           >
           </div>
         ) : (

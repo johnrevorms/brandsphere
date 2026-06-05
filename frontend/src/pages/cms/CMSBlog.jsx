@@ -170,7 +170,7 @@ export default function CMSBlog() {
                 <td className="p-4 flex items-center gap-4">
                   <div className="w-16 h-12 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden flex-shrink-0 flex items-center justify-center">
                     {article.image_path
-                      ? <img src={`http://localhost:8000/storage/${article.image_path}`} className="w-full h-full object-cover" alt="" />
+                      ? <img src={`${import.meta.env.VITE_STORAGE_URL}${article.image_path}`} className="w-full h-full object-cover" alt="" />
                       : <span className="text-[10px] text-gray-600 dark:text-gray-500">No Img</span>}
                   </div>
                   <div>

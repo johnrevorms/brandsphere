@@ -183,8 +183,8 @@ export default function CMSAbout() {
           <ImageUploader
             label="Banner Utama Halaman"
             settingKey="about_image"
-            currentUrl={settings.about_image ? `http://localhost:8000/storage/${settings.about_image}` : ''}
-            onUploaded={(url) => setSettings({ ...settings, about_image: url.replace('http://localhost:8000/storage/', '') })}
+            currentUrl={settings.about_image ? `${import.meta.env.VITE_STORAGE_URL}${settings.about_image}` : ''}
+            onUploaded={(url) => setSettings({ ...settings, about_image: url.replace(import.meta.env.VITE_STORAGE_URL, '') })}
           />
 
           <div className="bg-white dark:bg-black/50 border border-white/5 rounded-xl p-4 mt-4">

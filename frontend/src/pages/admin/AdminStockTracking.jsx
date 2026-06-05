@@ -99,7 +99,7 @@ export default function AdminStockTracking() {
                 >
                   <td className="p-4 flex items-center gap-3">
                     {product.image_path ? (
-                      <img src={`http://localhost:8000/storage/${product.image_path}`} className="w-10 h-10 rounded object-cover" alt="" />
+                      <img src={`${import.meta.env.VITE_STORAGE_URL}${product.image_path}`} className="w-10 h-10 rounded object-cover" alt="" />
                     ) : (
                       <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800 rounded flex items-center justify-center text-[10px] text-gray-600 dark:text-gray-500">No Img</div>
                     )}

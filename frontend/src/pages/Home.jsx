@@ -40,7 +40,7 @@ export default function Home() {
       promoList.push({
         title: settings[`promo_${i}_title`] || (i === 0 ? 'One More Devil?' : 'NEW ARRIVAL'),
         image: settings[`promo_${i}_image`]
-          ? `http://localhost:8000/storage/${settings[`promo_${i}_image`]}`
+          ? `${import.meta.env.VITE_STORAGE_URL}${settings[`promo_${i}_image`]}`
           : null,
       });
       i++;
@@ -77,7 +77,7 @@ export default function Home() {
       {/* Hero Image */}
       <div
         className="relative w-full min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: settings.hero_image ? `url(http://localhost:8000/storage/${settings.hero_image})` : 'none' }}
+        style={{ backgroundImage: settings.hero_image ? `url(${import.meta.env.VITE_STORAGE_URL}${settings.hero_image})` : 'none' }}
       >
       </div>
 
@@ -126,7 +126,7 @@ export default function Home() {
           <div className="relative w-full md:col-span-7 flex items-center justify-center group">
             {(theme === 'light' && settings.mascot_image_dark) || (theme === 'dark' && settings.mascot_image) || settings.mascot_image ? (
               <img
-                src={theme === 'light' && settings.mascot_image_dark ? `http://localhost:8000/storage/${settings.mascot_image_dark}` : `http://localhost:8000/storage/${settings.mascot_image}`}
+                src={theme === 'light' && settings.mascot_image_dark ? `${import.meta.env.VITE_STORAGE_URL}${settings.mascot_image_dark}` : `${import.meta.env.VITE_STORAGE_URL}${settings.mascot_image}`}
                 alt="Arcanum Mascot"
                 className="w-full max-h-[50vh] md:max-h-[75vh] object-contain transition-transform duration-700 group-hover:scale-105"
               />
@@ -173,7 +173,7 @@ export default function Home() {
               <Link to={`/products/${item.id}`} key={item.id} className="group cursor-pointer flex flex-col">
                 <div className="aspect-[3/4] bg-gray-50 dark:bg-gray-900 mb-4 overflow-hidden rounded-xl">
                   {item.image_path ? (
-                    <img src={`http://localhost:8000/storage/${item.image_path}`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src={`${import.meta.env.VITE_STORAGE_URL}${item.image_path}`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-700">No Image</div>
                   )}

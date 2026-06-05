@@ -83,7 +83,7 @@ export default function Blog() {
                   <div className="aspect-video bg-gray-100 dark:bg-gray-900 rounded-xl overflow-hidden border border-black/5 dark:border-white/5">
                     {featured.image_path ? (
                       <img
-                        src={`http://localhost:8000/storage/${featured.image_path}`}
+                        src={`${import.meta.env.VITE_STORAGE_URL}${featured.image_path}`}
                         alt={featured.title}
                         className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                       />
@@ -129,7 +129,7 @@ export default function Blog() {
                   <div className="aspect-[4/3] sm:aspect-video bg-gray-100 dark:bg-gray-900 rounded-xl overflow-hidden mb-4 md:mb-5 border border-black/5 dark:border-white/5">
                     {article.image_path ? (
                       <img
-                        src={`http://localhost:8000/storage/${article.image_path}`}
+                        src={`${import.meta.env.VITE_STORAGE_URL}${article.image_path}`}
                         alt={article.title}
                         className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                       />

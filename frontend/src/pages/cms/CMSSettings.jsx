@@ -3,7 +3,7 @@ import { Save, Upload, Globe, Palette, ImageIcon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import api from '../../api/axios';
 
-const API_BASE = 'http://localhost:8000/storage/';
+const API_BASE = import.meta.env.VITE_STORAGE_URL;
 
 function ImageUploadField({ label, settingKey, hint, currentValue, onSaved }) {
   const [preview, setPreview] = useState(null);

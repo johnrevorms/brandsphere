@@ -6,7 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
 
-const STORAGE_URL = 'http://localhost:8000/storage/';
+const STORAGE_URL = import.meta.env.VITE_STORAGE_URL;
 
 export default function Navbar() {
   const { user, logout } = useAuth();

@@ -168,7 +168,7 @@ export default function AdminProducts() {
               <tr key={item.id} className="border-b border-black/10 dark:border-white/10 hover:bg-white/5 transition">
                 <td className="p-4 flex items-center gap-4">
                   {item.image_path ? (
-                    <img src={`http://localhost:8000/storage/${item.image_path}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                    <img src={`${import.meta.env.VITE_STORAGE_URL}${item.image_path}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
                   ) : (
                     <div className="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded flex items-center justify-center text-[10px]">No Img</div>
                   )}
