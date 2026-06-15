@@ -87,6 +87,7 @@ export default function Footer() {
             <Link to="/refund" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">Refund Policy</Link>
             <Link to="/how-to-order" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">How to order</Link>
             <Link to="/faq" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">FAQ</Link>
+            <Link to="/reviews" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">Reviews</Link>
             <Link to="/payment-confirmation" className="hover:text-black dark:hover:text-white border-b border-black/10 dark:border-white/20 pb-2 transition-colors">Payment Confirmation</Link>
           </div>
           <p className="text-xs text-gray-600 dark:text-gray-500 mt-2">&copy; 2025 Arcanum. All Rights Reserved.</p>

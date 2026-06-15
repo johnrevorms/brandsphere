@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, useContext } from 'react';
 import api from '../api/axios';
 
@@ -10,13 +11,17 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const checkAuth = async () => {
-    const token = localStorage.getItem('token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    const token = sessionStorage.getItem('token');
     if (token) {
       try {
         const res = await api.get('/user');
         setUser(res.data);
-      } catch (error) {
-        localStorage.removeItem('token');
+      } catch {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
         setUser(null);
       }
     }
@@ -24,12 +29,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    const handleForcedLogout = () => {
+      setUser(null);
+    };
+
+    window.addEventListener('auth:logout', handleForcedLogout);
+
+    return () => window.removeEventListener('auth:logout', handleForcedLogout);
   }, []);
 
   const login = async (email, password) => {
     const res = await api.post('/login', { email, password });
-    localStorage.setItem('token', res.data.access_token);
+    sessionStorage.setItem('token', res.data.access_token);
+    sessionStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
     return res.data.user;
   };
@@ -40,7 +57,8 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       console.error(e);
     } finally {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
       setUser(null);
     }
   };
