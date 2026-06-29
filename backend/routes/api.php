@@ -13,6 +13,7 @@ use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PromoCodeController;
 
 // Public routes
 Route::get('/test', function () {
@@ -50,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // User Orders
     Route::get('/orders/user', [OrderController::class, 'userOrders']);
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::post('/promos/validate', [PromoCodeController::class, 'validatePromo']);
     Route::post('/reviews', [ReviewController::class, 'store']);
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
@@ -62,6 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
         // Categories (Admin)
         Route::post('/categories', [CategoryController::class, 'store']);
         Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+        Route::get('/promos', [PromoCodeController::class, 'index']);
+        Route::post('/promos', [PromoCodeController::class, 'store']);
+        Route::delete('/promos/{id}', [PromoCodeController::class, 'destroy']);
 
         // Products (Admin)
         Route::post('/products', [ProductController::class, 'store']);

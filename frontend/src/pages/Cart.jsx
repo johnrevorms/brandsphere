@@ -14,6 +14,13 @@ export default function Cart() {
   const [loading, setLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState(() => cart.map(i => i.cartItemId || i.id));
 
+  // Promo Code States
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoCodeApplied, setPromoCodeApplied] = useState('');
+  const [applyingPromo, setApplyingPromo] = useState(false);
+  const [promoError, setPromoError] = useState('');
+
   // Shipping states
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
@@ -29,8 +36,42 @@ export default function Cart() {
 
   const selectedCartItems = cart.filter(item => selectedItems.includes(item.cartItemId || item.id));
   const subTotal = selectedCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalQuantity = selectedCartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalWeight = selectedCartItems.reduce((sum, item) => sum + (500 * item.quantity), 0); // 500g per item
-  const finalTotal = subTotal + shippingCost;
+  
+  const discountAmount = Math.floor(subTotal * (promoDiscount / 100));
+  const finalTotal = subTotal - discountAmount + shippingCost;
+
+  const handleApplyPromo = async () => {
+    setPromoError('');
+    if (!promoCodeInput.trim()) return;
+    
+    setApplyingPromo(true);
+    try {
+      const res = await api.post('/promos/validate', { 
+        code: promoCodeInput, 
+        quantity: totalQuantity 
+      });
+      setPromoDiscount(res.data.discount_percentage);
+      setPromoCodeApplied(res.data.code);
+      showToast(res.data.message, 'success');
+    } catch (e) {
+      setPromoDiscount(0);
+      setPromoCodeApplied('');
+      setPromoError(e.response?.data?.error || 'Gagal memvalidasi promo');
+      showToast(e.response?.data?.error || 'Promo tidak valid', 'error');
+    } finally {
+      setApplyingPromo(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setPromoDiscount(0);
+    setPromoCodeApplied('');
+    setPromoCodeInput('');
+    setPromoError('');
+    showToast('Promo dilepas', 'success');
+  };
 
   const toggleSelectItem = (id) => {
     setSelectedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -343,11 +384,53 @@ export default function Cart() {
             <div className="bg-white/[0.02] backdrop-blur-xl border border-black/10 dark:border-white/10 p-6 md:p-10 sticky top-32">
               <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-black dark:text-white/70 border-b border-black/20 dark:border-white/20 pb-4 mb-8">Ringkasan Pesanan</h2>
 
+              {/* Promo Code Section */}
+              <div className="mb-8">
+                <label className="block text-xs font-mono text-black dark:text-white/70 tracking-widest uppercase mb-3">Kode Promo (Grosir/Diskon)</label>
+                {!promoCodeApplied ? (
+                  <div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                        placeholder="KODE PROMO"
+                        className="w-full bg-transparent border-b border-black/30 dark:border-white/30 pb-2 text-sm text-black dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-colors uppercase placeholder-gray-400 dark:placeholder-white/40"
+                      />
+                      <button
+                        onClick={handleApplyPromo}
+                        disabled={applyingPromo || !promoCodeInput}
+                        className="px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-bold text-[10px] uppercase tracking-widest hover:opacity-80 disabled:opacity-50 transition-colors whitespace-nowrap"
+                      >
+                        {applyingPromo ? '...' : 'Terapkan'}
+                      </button>
+                    </div>
+                    {promoError && <p className="text-red-500 text-[10px] mt-2 font-bold uppercase tracking-wide">{promoError}</p>}
+                  </div>
+                ) : (
+                  <div className="flex justify-between items-center bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-3 rounded-md">
+                    <div>
+                      <p className="text-xs font-bold tracking-widest text-green-700 dark:text-green-400">{promoCodeApplied}</p>
+                      <p className="text-[10px] font-bold tracking-widest text-green-600 dark:text-green-500 mt-1">Diskon {promoDiscount}% digunakan!</p>
+                    </div>
+                    <button onClick={handleRemovePromo} className="text-red-500 hover:text-red-700 p-1 bg-red-50 dark:bg-red-900/20 rounded">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="space-y-5 mb-10">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-black dark:text-white/80 tracking-wider">Subtotal</span>
                   <span className="font-mono tracking-widest">IDR {subTotal.toLocaleString('id-ID')}</span>
                 </div>
+                {promoDiscount > 0 && (
+                  <div className="flex justify-between items-center text-sm text-green-600 dark:text-green-400">
+                    <span className="tracking-wider">Diskon ({promoDiscount}%)</span>
+                    <span className="font-mono tracking-widest">- IDR {discountAmount.toLocaleString('id-ID')}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-black dark:text-white/80 tracking-wider">Ongkos Kirim</span>
                   <span className="font-mono tracking-widest">IDR {shippingCost.toLocaleString('id-ID')}</span>
