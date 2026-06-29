@@ -2,6 +2,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Save, Upload, Plus, Trash2, ImageIcon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 const API_BASE = import.meta.env.VITE_STORAGE_URL;
 
@@ -29,10 +30,10 @@ function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
           image: base64data
         });
         onUploaded && onUploaded(res.data.url);
-        alert(`${label} berhasil disimpan!`);
+        showToast(`${label} berhasil disimpan!`);
       } catch (e) {
         console.error(e);
-        alert('Gagal upload gambar.');
+        showToast('Gagal upload gambar.');
       } finally {
         setUploading(false);
       }
@@ -69,6 +70,7 @@ function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
 }
 
 export default function CMSHome() {
+  const { showToast } = useToast();
   const [settings, setSettings] = useState({});
   const [marquee, setMarquee] = useState('ONE MORE');
   const [promos, setPromos] = useState([
@@ -122,7 +124,7 @@ export default function CMSHome() {
       setTimeout(() => setSaved(false), 2500);
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan.');
+      showToast('Gagal menyimpan.');
     } finally {
       setSaving(false);
     }

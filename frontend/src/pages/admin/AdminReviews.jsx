@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { MessageSquare, MessageSquareReply, Search, Star, Trash2 } from 'lucide-react';
 import DashboardLayout from '../../components/DashboardLayout';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 function StarRating({ value }) {
   return (
@@ -16,29 +17,14 @@ function StarRating({ value }) {
   );
 }
 
-function AlertStyleNotification({ message }) {
-  if (!message) return null;
 
-  return (
-    <div className="fixed inset-x-0 top-6 z-[70] flex justify-center px-4 pointer-events-none transition-all duration-300 ease-out animate-in fade-in slide-in-from-top-4">
-      <div className="flex items-center gap-3 w-auto max-w-[90vw] bg-gray-900/90 backdrop-blur-md text-white border border-gray-700/50 rounded-full shadow-2xl px-6 py-4">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/20 text-green-400">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-        </div>
-        <p className="text-sm font-medium tracking-wide">{message}</p>
-      </div>
-    </div>
-  );
-}
 
 export default function AdminReviews() {
+  const { showToast } = useToast();
   const [reviews, setReviews] = useState([]);
   const [replyDrafts, setReplyDrafts] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [notification, setNotification] = useState('');
 
   const fetchReviews = async () => {
     try {
@@ -60,13 +46,7 @@ export default function AdminReviews() {
     fetchReviews();
   }, []);
 
-  useEffect(() => {
-    if (!notification) return undefined;
 
-    const timer = setTimeout(() => setNotification(''), 2500);
-
-    return () => clearTimeout(timer);
-  }, [notification]);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('id-ID', {
@@ -99,11 +79,11 @@ export default function AdminReviews() {
   const handleReply = async (id) => {
     try {
       await api.put(`/reviews/${id}/reply`, { admin_reply: (replyDrafts[id] || '').trim() });
-      alert('Balasan ulasan berhasil disimpan.');
+      showToast('Balasan ulasan berhasil disimpan.');
       fetchReviews();
     } catch (e) {
       console.error(e);
-      alert(e.response?.data?.message || 'Gagal menyimpan balasan ulasan.');
+      showToast(e.response?.data?.message || 'Gagal menyimpan balasan ulasan.');
     }
   };
 
@@ -112,17 +92,16 @@ export default function AdminReviews() {
 
     try {
       await api.delete(`/reviews/${id}`);
-      setNotification('Berhasil di delete.');
+      showToast('Berhasil di delete.');
       fetchReviews();
     } catch (e) {
       console.error(e);
-      alert(e.response?.data?.message || 'Gagal menghapus ulasan.');
+      showToast(e.response?.data?.message || 'Gagal menghapus ulasan.');
     }
   };
 
   return (
     <DashboardLayout role="admin">
-      <AlertStyleNotification message={notification} />
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 mb-8">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-gray-500 mb-3">Customer Feedback</p>

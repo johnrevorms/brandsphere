@@ -4,8 +4,10 @@ import { ShoppingCart, ArrowLeft, Plus, Minus } from 'lucide-react';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 export default function ProductDetail() {
+  const { showToast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -25,7 +27,7 @@ export default function ProductDetail() {
         setProduct(res.data);
       } catch (e) {
         console.error(e);
-        alert('Produk tidak ditemukan');
+        showToast('Produk tidak ditemukan');
         navigate('/products');
       } finally {
         setLoading(false);
@@ -36,7 +38,7 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!user) {
-      alert("Silakan login terlebih dahulu untuk berbelanja.");
+      showToast("Silakan login terlebih dahulu untuk berbelanja.");
       return;
     }
     
@@ -55,7 +57,7 @@ export default function ProductDetail() {
     // Note: If CartContext only adds 1, we might need to update CartContext to handle quantity.
     // For now we assume addToCart handles the object.
     
-    alert(`${quantity}x ${product.name} (Size: ${selectedSize}) ditambahkan ke keranjang!`);
+    showToast(`${quantity}x ${product.name} (Size: ${selectedSize}) ditambahkan ke keranjang!`);
   };
 
   if (loading) {

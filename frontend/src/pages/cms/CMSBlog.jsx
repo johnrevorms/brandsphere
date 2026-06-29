@@ -2,10 +2,12 @@ import DashboardLayout from "../../components/DashboardLayout";
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit, X } from 'lucide-react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 const emptyForm = { title: '', subtitle: '', content: '', image: null };
 
 export default function CMSBlog() {
+  const { showToast } = useToast();
   const [articles, setArticles] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState(emptyForm);
@@ -52,10 +54,10 @@ export default function CMSBlog() {
     try {
       if (editingId) {
         await api.post(`/articles/${editingId}`, data, { headers: { 'Content-Type': 'multipart/form-data' } });
-        alert('Artikel berhasil diperbarui!');
+        showToast('Artikel berhasil diperbarui!');
       } else {
         await api.post('/articles', data, { headers: { 'Content-Type': 'multipart/form-data' } });
-        alert('Artikel berhasil dipublikasikan!');
+        showToast('Artikel berhasil dipublikasikan!');
       }
       closeForm();
       fetchArticles();
@@ -63,9 +65,9 @@ export default function CMSBlog() {
       console.error(e);
       const serverMessage = e.response?.data?.message;
       if (serverMessage) {
-        alert('Gagal menyimpan: ' + serverMessage);
+        showToast('Gagal menyimpan: ' + serverMessage);
       } else {
-        alert('Gagal menyimpan artikel. Pastikan sudah login atau cek koneksi Anda.');
+        showToast('Gagal menyimpan artikel. Pastikan sudah login atau cek koneksi Anda.');
       }
     } finally {
       setSubmitting(false);

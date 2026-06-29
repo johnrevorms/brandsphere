@@ -2,6 +2,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Save } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 const PAGE_SLUGS = [
   { slug: 'faq',           label: 'FAQ (Pertanyaan Umum)',        hint: 'Tampil di halaman /faq' },
@@ -15,6 +16,7 @@ const PAGE_SLUGS = [
 const emptyPages = Object.fromEntries(PAGE_SLUGS.map(p => [p.slug, '']));
 
 export default function CMSPages() {
+  const { showToast } = useToast();
   const [pages, setPages] = useState(emptyPages);
   const [saving, setSaving] = useState(null);
   const [saved, setSaved] = useState(null);
@@ -45,7 +47,7 @@ export default function CMSPages() {
       setTimeout(() => setSaved(null), 2000);
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan. Pastikan sudah login.');
+      showToast('Gagal menyimpan. Pastikan sudah login.');
     } finally {
       setSaving(null);
     }

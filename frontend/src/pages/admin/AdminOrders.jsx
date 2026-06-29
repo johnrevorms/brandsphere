@@ -1,8 +1,10 @@
 import DashboardLayout from "../../components/DashboardLayout";
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 export default function AdminOrders() {
+  const { showToast } = useToast();
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
@@ -31,7 +33,7 @@ export default function AdminOrders() {
       fetchOrders();
     } catch (e) {
       console.error(e);
-      alert('Gagal mengupdate status.');
+      showToast('Gagal mengupdate status.');
     }
   };
 

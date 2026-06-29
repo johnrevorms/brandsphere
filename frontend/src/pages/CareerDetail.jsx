@@ -3,8 +3,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Briefcase } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 export default function CareerDetail() {
+  const { showToast } = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -26,7 +28,7 @@ export default function CareerDetail() {
         setCareer(res.data);
       } catch (e) {
         console.error(e);
-        alert('Pekerjaan tidak ditemukan');
+        showToast('Pekerjaan tidak ditemukan');
         navigate('/careers');
       } finally {
         setLoading(false);
@@ -48,7 +50,7 @@ export default function CareerDetail() {
   const handleApply = async (e) => {
     e.preventDefault();
     if (!cvFile) {
-      alert('Mohon unggah CV Anda.');
+      showToast('Mohon unggah CV Anda.');
       return;
     }
     setSubmitting(true);
@@ -69,12 +71,12 @@ export default function CareerDetail() {
         },
       });
 
-      alert('Lamaran Anda berhasil terkirim!');
+      showToast('Lamaran Anda berhasil terkirim!');
       setShowModal(false);
       setAppStatus({ applied: true, status: 'submitted' });
     } catch (e) {
       console.error(e);
-      alert('Gagal mengirim lamaran. Pastikan file berformat PDF dan ukuran maksimal 5MB.');
+      showToast('Gagal mengirim lamaran. Pastikan file berformat PDF dan ukuran maksimal 5MB.');
     } finally {
       setSubmitting(false);
     }

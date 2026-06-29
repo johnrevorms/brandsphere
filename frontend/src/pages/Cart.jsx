@@ -4,8 +4,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect } from 'react';
+import { useToast } from '../context/ToastContext';
 
 export default function Cart() {
+  const { showToast } = useToast();
   const { cart, removeFromCart, updateQuantity, clearCart, removeMultipleFromCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -69,7 +71,7 @@ export default function Cart() {
   useEffect(() => {
     if (cityId && courier && cart.length > 0) {
       api.post('/shipping/cost', {
-        origin: '152', // Example: Jakarta Pusat
+        origin: '137', // Example: Jakarta Pusat (Komerce ID)
         destination: cityId,
         weight: totalWeight,
         courier: courier
@@ -81,18 +83,18 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     if (!user) {
-      alert("Anda harus login untuk melanjutkan.");
+      showToast("Anda harus login untuk melanjutkan.");
       navigate('/login');
       return;
     }
 
     if (selectedCartItems.length === 0) {
-      alert("Pilih setidaknya satu produk untuk di-checkout.");
+      showToast("Pilih setidaknya satu produk untuk di-checkout.");
       return;
     }
 
     if (!address || !provinceId || !cityId || !courier || !service) {
-      alert("Lengkapi alamat dan pilih layanan pengiriman.");
+      showToast("Lengkapi alamat dan pilih layanan pengiriman.");
       return;
     }
 
@@ -133,23 +135,23 @@ export default function Cart() {
             navigate('/orders');
           },
           onError: function (result) {
-            alert('Pembayaran gagal!');
+            showToast('Pembayaran gagal!');
             setLoading(false);
           },
           onClose: function () {
-            alert('Anda menutup popup tanpa menyelesaikan pembayaran.');
+            showToast('Anda menutup popup tanpa menyelesaikan pembayaran.');
             navigate('/orders');
             setLoading(false);
           }
         });
       } else {
-        alert("Sistem pembayaran belum siap, coba lagi nanti.");
+        showToast("Sistem pembayaran belum siap, coba lagi nanti.");
         setLoading(false);
       }
 
     } catch (e) {
       console.error(e);
-      alert('Terjadi kesalahan saat memproses pesanan.');
+      showToast('Terjadi kesalahan saat memproses pesanan.');
       setLoading(false);
     }
   };
@@ -207,7 +209,7 @@ export default function Cart() {
                       />
                     </label>
                   </div>
-                  
+
                   {/* Image */}
                   <div className="w-16 h-24 md:w-28 md:h-36 bg-gray-100 dark:bg-white/5 overflow-hidden flex-shrink-0 relative">
                     {item.image_path ? (
@@ -216,7 +218,7 @@ export default function Cart() {
                       <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-400 tracking-widest uppercase">No Img</div>
                     )}
                   </div>
-                  
+
                   {/* Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div className="flex justify-between items-start">
@@ -305,6 +307,7 @@ export default function Cart() {
                     >
                       <option value="" className="bg-white dark:bg-black text-gray-600 dark:text-gray-400">Pilih Kurir</option>
                       <option value="jne" className="bg-white dark:bg-black text-black dark:text-white">JNE</option>
+                      <option value="jnt" className="bg-white dark:bg-black text-black dark:text-white">J&T Express</option>
                       <option value="pos" className="bg-white dark:bg-black text-black dark:text-white">POS Indonesia</option>
                       <option value="tiki" className="bg-white dark:bg-black text-black dark:text-white">TIKI</option>
                     </select>

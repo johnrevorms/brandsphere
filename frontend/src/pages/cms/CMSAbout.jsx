@@ -2,6 +2,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Save, Upload, ImageIcon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
   const [preview, setPreview] = useState(currentUrl || null);
@@ -27,10 +28,10 @@ function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
           image: base64data
         });
         onUploaded && onUploaded(res.data.url);
-        alert(`${label} berhasil disimpan!`);
+        showToast(`${label} berhasil disimpan!`);
       } catch (e) {
         console.error(e);
-        alert('Gagal upload gambar.');
+        showToast('Gagal upload gambar.');
       } finally {
         setUploading(false);
       }
@@ -67,6 +68,7 @@ function ImageUploader({ label, settingKey, currentUrl, onUploaded }) {
 }
 
 export default function CMSAbout() {
+  const { showToast } = useToast();
   const [aboutContent, setAboutContent] = useState('');
   const [settings, setSettings] = useState({});
   const [aboutQuote, setAboutQuote] = useState('');
@@ -116,7 +118,7 @@ export default function CMSAbout() {
       setTimeout(() => setSaved(false), 2000);
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan perubahan.');
+      showToast('Gagal menyimpan perubahan.');
     } finally {
       setSaving(false);
     }

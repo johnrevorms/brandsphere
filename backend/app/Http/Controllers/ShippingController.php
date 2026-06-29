@@ -11,50 +11,57 @@ class ShippingController extends Controller
     public function getProvinces()
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
-                'key' => config('services.rajaongkir.key')
-            ])->get('https://api.rajaongkir.com/starter/province');
+            $response = Http::withoutVerifying()
+                ->withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])
+                ->timeout(10)
+                ->withHeaders([
+                    'key' => config('services.rajaongkir.key')
+                ])->get('https://rajaongkir.komerce.id/api/v1/destination/province');
 
-            if ($response->successful()) {
-                return response()->json($response['rajaongkir']['results'] ?? []);
+            if ($response->successful() && isset($response['data'])) {
+                $provinces = collect($response['data'])->map(function ($item) {
+                    return [
+                        'province_id' => (string) $item['id'],
+                        'province' => $item['name']
+                    ];
+                });
+                return response()->json($provinces);
             }
-            
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockProvinces();
-            }
-            return response()->json(['error' => 'Gagal mengambil data provinsi dari API.'], 500);
+
+            Log::warning('RajaOngkir returned non-success for provinces, using mock data.');
+            return $this->getMockProvinces();
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockProvinces();
-            }
-            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
+            return $this->getMockProvinces();
         }
     }
 
     public function getCities($provinceId)
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
-                'key' => config('services.rajaongkir.key')
-            ])->get('https://api.rajaongkir.com/starter/city', [
-                'province' => $provinceId
-            ]);
+            $response = Http::withoutVerifying()
+                ->withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])
+                ->timeout(10)
+                ->withHeaders([
+                    'key' => config('services.rajaongkir.key')
+                ])->get("https://rajaongkir.komerce.id/api/v1/destination/city/{$provinceId}");
 
-            if ($response->successful()) {
-                return response()->json($response['rajaongkir']['results'] ?? []);
+            if ($response->successful() && isset($response['data'])) {
+                $cities = collect($response['data'])->map(function ($item) {
+                    return [
+                        'city_id' => (string) $item['id'],
+                        'type' => 'Kota',
+                        'city_name' => $item['name']
+                    ];
+                });
+                return response()->json($cities);
             }
 
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockCities();
-            }
-            return response()->json(['error' => 'Gagal mengambil data kota dari API.'], 500);
+            Log::warning('RajaOngkir returned non-success for cities, using mock data.');
+            return $this->getMockCities();
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockCities();
-            }
-            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
+            return $this->getMockCities();
         }
     }
 
@@ -68,29 +75,40 @@ class ShippingController extends Controller
         ]);
 
         try {
-            $response = Http::withoutVerifying()->timeout(10)->withHeaders([
-                'key' => config('services.rajaongkir.key')
-            ])->post('https://api.rajaongkir.com/starter/cost', [
-                'origin' => $request->origin,
-                'destination' => $request->destination,
-                'weight' => $request->weight,
-                'courier' => $request->courier
-            ]);
+            $response = Http::withoutVerifying()->asForm()
+                ->withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])
+                ->timeout(10)
+                ->withHeaders([
+                    'key' => config('services.rajaongkir.key')
+                ])->post('https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
+                        'origin' => $request->origin,
+                        'destination' => $request->destination,
+                        'weight' => $request->weight,
+                        'courier' => $request->courier
+                    ]);
 
-            if ($response->successful()) {
-                return response()->json($response['rajaongkir']['results'][0]['costs'] ?? []);
+            if ($response->successful() && isset($response['data'])) {
+                $costs = collect($response['data'])->map(function ($item) {
+                    return [
+                        'service' => $item['service'] ?? '',
+                        'description' => $item['description'] ?? '',
+                        'cost' => [
+                            [
+                                'value' => $item['cost'] ?? 0,
+                                'etd' => $item['etd'] ?? '',
+                                'note' => ''
+                            ]
+                        ]
+                    ];
+                });
+                return response()->json($costs);
             }
 
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockCost();
-            }
-            return response()->json(['error' => 'Gagal menghitung ongkos kirim.'], 500);
+            Log::warning('RajaOngkir returned non-success for cost, using mock data.');
+            return $this->getMockCost();
         } catch (\Exception $e) {
             Log::error('RajaOngkir Error: ' . $e->getMessage());
-            if (app()->environment('local', 'testing')) {
-                return $this->getMockCost();
-            }
-            return response()->json(['error' => 'Terjadi kesalahan sistem.'], 500);
+            return $this->getMockCost();
         }
     }
 

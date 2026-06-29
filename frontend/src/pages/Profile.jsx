@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import { useToast } from '../context/ToastContext';
 
 export default function Profile() {
+  const { showToast } = useToast();
   const { user, checkAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -64,7 +66,7 @@ export default function Profile() {
       setTimeout(() => setSuccessMsg(''), 3000);
     } catch (e) {
       console.error(e);
-      alert('Gagal memperbarui profil.');
+      showToast('Gagal memperbarui profil.');
     } finally {
       setLoading(false);
     }

@@ -2,8 +2,10 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Trash2, XCircle, FileText, Download, Filter, Calendar, Mail, Phone, Briefcase } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 export default function CMSApplications() {
+  const { showToast } = useToast();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('All');
@@ -28,11 +30,11 @@ export default function CMSApplications() {
     if (confirm('Yakin ingin menolak pelamar ini? Pelamar akan melihat status "Not Selected"')) {
       try {
         await api.put(`/applications/${id}/status`, { status: 'rejected' });
-        alert('Pelamar berhasil ditolak.');
+        showToast('Pelamar berhasil ditolak.');
         fetchApplications();
       } catch (e) {
         console.error(e);
-        alert('Gagal menolak pelamar.');
+        showToast('Gagal menolak pelamar.');
       }
     }
   };
@@ -41,11 +43,11 @@ export default function CMSApplications() {
     if (confirm('Yakin ingin menghapus lamaran ini secara permanen dari database & server? File CV juga akan terhapus.')) {
       try {
         await api.delete(`/applications/${id}`);
-        alert('Data lamaran & CV berhasil dihapus sepenuhnya.');
+        showToast('Data lamaran & CV berhasil dihapus sepenuhnya.');
         fetchApplications();
       } catch (e) {
         console.error(e);
-        alert('Gagal menghapus lamaran.');
+        showToast('Gagal menghapus lamaran.');
       }
     }
   };

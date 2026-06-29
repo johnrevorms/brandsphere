@@ -2,10 +2,12 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Plus, Trash2, Edit, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 const emptyForm = { position: '', type: 'Full Time', location: 'On Site', city: '', description: '' };
 
 export default function CMSCareers() {
+  const { showToast } = useToast();
   const [careers, setCareers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState(emptyForm);
@@ -52,16 +54,16 @@ export default function CMSCareers() {
     try {
       if (editingId) {
         await api.put(`/careers/${editingId}`, formData);
-        alert('Lowongan berhasil diperbarui!');
+        showToast('Lowongan berhasil diperbarui!');
       } else {
         await api.post('/careers', formData);
-        alert('Lowongan berhasil ditambahkan!');
+        showToast('Lowongan berhasil ditambahkan!');
       }
       closeForm();
       fetchCareers();
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan. Pastikan sudah login.');
+      showToast('Gagal menyimpan. Pastikan sudah login.');
     } finally {
       setSubmitting(false);
     }

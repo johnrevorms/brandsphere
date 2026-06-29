@@ -2,6 +2,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Save, Upload, Globe, Palette, ImageIcon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 const API_BASE = import.meta.env.VITE_STORAGE_URL;
 
@@ -29,10 +30,10 @@ function ImageUploadField({ label, settingKey, hint, currentValue, onSaved }) {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       onSaved && onSaved(res.data.url);
-      alert(`${label} berhasil disimpan!`);
+      showToast(`${label} berhasil disimpan!`);
     } catch (err) {
       console.error(err);
-      alert('Gagal upload. Pastikan sudah login.');
+      showToast('Gagal upload. Pastikan sudah login.');
     } finally {
       setUploading(false);
     }
@@ -68,6 +69,7 @@ function ImageUploadField({ label, settingKey, hint, currentValue, onSaved }) {
 }
 
 export default function CMSSettings() {
+  const { showToast } = useToast();
   const [settings, setSettings] = useState({});
   const [form, setForm] = useState({
     site_name: 'Arcanum',
@@ -112,7 +114,7 @@ export default function CMSSettings() {
       setTimeout(() => setSaved(false), 2500);
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan.');
+      showToast('Gagal menyimpan.');
     } finally {
       setSaving(false);
     }

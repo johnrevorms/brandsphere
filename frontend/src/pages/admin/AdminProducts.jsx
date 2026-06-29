@@ -2,8 +2,10 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
+import { useToast } from '../../context/ToastContext';
 
 export default function AdminProducts() {
+  const { showToast } = useToast();
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
     name: '', category: 'TSHIRT', price: '', stock_status: 'In Stock', stock: '0', description: ''
@@ -64,12 +66,12 @@ export default function AdminProducts() {
         await api.post(`/products/${editingId}`, data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        alert('Produk berhasil diperbarui!');
+        showToast('Produk berhasil diperbarui!');
       } else {
         await api.post('/products', data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        alert('Produk berhasil ditambahkan!');
+        showToast('Produk berhasil ditambahkan!');
       }
       
       fetchProducts();
@@ -78,7 +80,7 @@ export default function AdminProducts() {
       setEditingId(null);
     } catch (e) {
       console.error(e);
-      alert('Gagal menyimpan produk');
+      showToast('Gagal menyimpan produk');
     }
   };
 

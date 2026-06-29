@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 export default function Products() {
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,11 +57,11 @@ export default function Products() {
 
   const handleAddToCart = (product) => {
     if (!user) {
-      alert("Silakan login terlebih dahulu untuk berbelanja.");
+      showToast("Silakan login terlebih dahulu untuk berbelanja.");
       return;
     }
     addToCart(product);
-    alert(`${product.name} dimasukkan ke keranjang!`);
+    showToast(`${product.name} dimasukkan ke keranjang!`);
   };
 
   return (
