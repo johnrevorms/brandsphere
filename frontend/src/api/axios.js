@@ -10,12 +10,25 @@ const api = axios.create({
 
 // Interceptor to attach token to requests
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      window.dispatchEvent(new Event('auth:logout'));
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 // Simple in-memory cache to achieve sub-second SPA navigation
 const cache = new Map();
@@ -28,7 +41,8 @@ api.get = async (url, config = {}) => {
   const shouldCache = !url.includes('/orders') && 
                       !url.includes('/user') && 
                       !url.includes('/shipping') &&
-                      !url.includes('/applications');
+                      !url.includes('/applications') &&
+                      !url.includes('/reviews');
 
   if (shouldCache) {
     const cached = cache.get(url);

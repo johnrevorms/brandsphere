@@ -1,14 +1,43 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+
+const normalizeRole = (role) => String(role || '').trim().toLowerCase();
+
+const defaultPathForRole = (role) => {
+  const normalizedRole = normalizeRole(role);
+
+  if (normalizedRole === 'admin') return '/admindashboard';
+  if (normalizedRole === 'cms') return '/cmsdashboard';
+
+  return '/';
+};
+
+const canOpenPath = (role, path) => {
+  const normalizedRole = normalizeRole(role);
+
+  if (path?.startsWith('/admindashboard')) return normalizedRole === 'admin';
+  if (path?.startsWith('/cmsdashboard')) return normalizedRole === 'cms';
+  if (['/profile', '/orders', '/cart', '/payment-confirmation'].includes(path)) return normalizedRole === 'user';
+
+  return true;
+};
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const requestedPath = location.state?.from;
+
+  useEffect(() => {
+    if (!user) return;
+
+    navigate(defaultPathForRole(user.role), { replace: true });
+  }, [navigate, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,14 +45,12 @@ export default function Login() {
     setLoading(true);
     try {
       const user = await login(email, password);
-      if (user.role === 'admin') {
-        navigate('/admindashboard');
-      } else if (user.role === 'cms') {
-        navigate('/cmsdashboard');
-      } else {
-        navigate('/');
-      }
-    } catch (err) {
+      const nextPath = requestedPath && canOpenPath(user.role, requestedPath)
+        ? requestedPath
+        : defaultPathForRole(user.role);
+
+      navigate(nextPath, { replace: true });
+    } catch {
       setError('Email atau password salah');
     } finally {
       setLoading(false);

@@ -11,6 +11,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ReviewController;
 
 // Public routes
 Route::get('/test', function () {
@@ -36,6 +37,7 @@ Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::get('/pages', [PageController::class, 'index']);
 Route::get('/settings', [SettingController::class, 'index']);
+Route::get('/reviews', [ReviewController::class, 'index']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -46,41 +48,50 @@ Route::middleware('auth:sanctum')->group(function () {
     // User Orders
     Route::get('/orders/user', [OrderController::class, 'userOrders']);
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
-    // Admin Orders
-    Route::get('/orders', [OrderController::class, 'index']);
-    Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+    Route::middleware('role:admin')->group(function () {
+        // Admin Orders
+        Route::get('/orders', [OrderController::class, 'index']);
+        Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+        Route::put('/reviews/{id}/reply', [ReviewController::class, 'reply']);
 
-    // Products (Admin)
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::post('/products/{id}', [ProductController::class, 'update']); // multipart update
-    Route::put('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-    Route::get('/products/{id}/buyers', [ProductController::class, 'buyers']); // stock tracking
+        // Products (Admin)
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::post('/products/{id}', [ProductController::class, 'update']); // multipart update
+        Route::put('/products/{id}', [ProductController::class, 'update']);
+        Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+        Route::get('/products/{id}/buyers', [ProductController::class, 'buyers']); // stock tracking
+    });
 
-    // Careers (CMS)
-    Route::post('/careers', [CareerController::class, 'store']);
-    Route::put('/careers/{id}', [CareerController::class, 'update']);
-    Route::delete('/careers/{id}', [CareerController::class, 'destroy']);
+    Route::middleware('role:cms')->group(function () {
+        // Careers (CMS)
+        Route::post('/careers', [CareerController::class, 'store']);
+        Route::put('/careers/{id}', [CareerController::class, 'update']);
+        Route::delete('/careers/{id}', [CareerController::class, 'destroy']);
 
-    // Articles (CMS)
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::post('/articles/{id}', [ArticleController::class, 'update']); // multipart update
-    Route::put('/articles/{id}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
+        // Articles (CMS)
+        Route::post('/articles', [ArticleController::class, 'store']);
+        Route::post('/articles/{id}', [ArticleController::class, 'update']); // multipart update
+        Route::put('/articles/{id}', [ArticleController::class, 'update']);
+        Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
 
-    // CMS Pages
-    Route::put('/pages/{slug}', [PageController::class, 'update']);
-    Route::post('/pages/{slug}', [PageController::class, 'update']); // alias
+        // CMS Pages
+        Route::put('/pages/{slug}', [PageController::class, 'update']);
+        Route::post('/pages/{slug}', [PageController::class, 'update']); // alias
 
-    // Settings (CMS)
-    Route::post('/settings', [SettingController::class, 'set']);
-    Route::post('/settings/upload', [SettingController::class, 'uploadImage']);
+        // Settings (CMS)
+        Route::post('/settings', [SettingController::class, 'set']);
+        Route::post('/settings/upload', [SettingController::class, 'uploadImage']);
 
-    // Job Applications
+        // Job Applications (CMS)
+        Route::get('/applications', [ApplicationController::class, 'index']);
+        Route::put('/applications/{id}/status', [ApplicationController::class, 'updateStatus']);
+        Route::delete('/applications/{id}', [ApplicationController::class, 'destroy']);
+    });
+
+    // Job Applications (User)
     Route::post('/applications', [ApplicationController::class, 'store']);
     Route::get('/careers/{id}/application-status', [ApplicationController::class, 'getUserApplicationStatus']);
-    Route::get('/applications', [ApplicationController::class, 'index']);
-    Route::put('/applications/{id}/status', [ApplicationController::class, 'updateStatus']);
-    Route::delete('/applications/{id}', [ApplicationController::class, 'destroy']);
 });
