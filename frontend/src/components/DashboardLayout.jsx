@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, FileText, Briefcase, Settings, ArrowLeft, LogOut, BarChart2, Info, Users, Moon, Sun, Menu, X, MessageSquareText } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, FileText, Briefcase, Settings, ArrowLeft, LogOut, BarChart2, Info, Users, Moon, Sun, Menu, X, MessageSquareText, Tags } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
@@ -18,6 +18,7 @@ export default function DashboardLayout({ children, role }) {
 
   const adminNav = [
     { name: 'Dashboard', path: '/admindashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { name: 'Kategori', path: '/admindashboard/categories', icon: <Tags className="w-5 h-5" /> },
     { name: 'Produk', path: '/admindashboard/products', icon: <Package className="w-5 h-5" /> },
     { name: 'Pesanan', path: '/admindashboard/orders', icon: <ShoppingCart className="w-5 h-5" /> },
     { name: 'Tracking Stok', path: '/admindashboard/stock', icon: <BarChart2 className="w-5 h-5" /> },

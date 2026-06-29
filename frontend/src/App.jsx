@@ -23,6 +23,7 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Reviews from './pages/Reviews';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminCategories from './pages/admin/AdminCategories';
 import CMSDashboard from './pages/cms/CMSDashboard';
 
 import AdminProducts from './pages/admin/AdminProducts';
@@ -73,6 +74,7 @@ function AppLayout() {
           
           {/* Admin Routes */}
           <Route path="/admindashboard" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admindashboard/categories" element={<ProtectedRoute allowedRoles={['admin']}><AdminCategories /></ProtectedRoute>} />
           <Route path="/admindashboard/products" element={<ProtectedRoute allowedRoles={['admin']}><AdminProducts /></ProtectedRoute>} />
           <Route path="/admindashboard/orders" element={<ProtectedRoute allowedRoles={['admin']}><AdminOrders /></ProtectedRoute>} />
           <Route path="/admindashboard/reports" element={<ProtectedRoute allowedRoles={['admin']}><AdminReports /></ProtectedRoute>} />

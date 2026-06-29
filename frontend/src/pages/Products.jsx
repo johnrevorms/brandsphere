@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ShoppingCart, Search, Filter } from 'lucide-react';
+import { ShoppingCart, Search, Filter, Menu, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext';
@@ -14,26 +14,31 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSticky, setIsSticky] = useState(false);
+  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const filterRef = useRef(null);
 
   const { addToCart } = useCart();
   const { user } = useAuth();
 
-  const categories = ['Semua', 'TSHIRT', 'TROUSERS', 'JACKET', 'ACCESORIES'];
+  const [categories, setCategories] = useState(['Semua']);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProductsAndCategories = async () => {
       setLoading(true);
       try {
-        const res = await api.get('/products');
-        setProducts(res.data);
+        const [prodRes, catRes] = await Promise.all([
+          api.get('/products'),
+          api.get('/categories')
+        ]);
+        setProducts(prodRes.data);
+        setCategories(['Semua', ...catRes.data.map(c => c.name)]);
       } catch (e) {
         console.error(e);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchProductsAndCategories();
   }, []);
 
   useEffect(() => {
@@ -73,20 +78,53 @@ export default function Products() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 flex flex-col md:flex-row gap-3 md:gap-4 justify-between items-center">
           {/* Categories */}
-          <div className="flex overflow-x-auto gap-2 pb-1 md:pb-0 hide-scrollbar w-full md:w-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-1.5 md:px-6 md:py-2 rounded-full border whitespace-nowrap text-[10px] md:text-sm font-bold tracking-widest uppercase transition-all ${activeCategory === cat
-                  ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white'
-                  : 'bg-transparent text-gray-500 dark:text-gray-400 border-black/10 dark:border-white/20 hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'
-                  }`}
+          {categories.length <= 5 ? (
+            <div className="flex overflow-x-auto gap-2 pb-1 md:pb-0 hide-scrollbar w-full md:w-auto">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-1.5 md:px-6 md:py-2 rounded-full border whitespace-nowrap text-[10px] md:text-sm font-bold tracking-widest uppercase transition-all ${activeCategory === cat
+                    ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white'
+                    : 'bg-transparent text-gray-500 dark:text-gray-400 border-black/10 dark:border-white/20 hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'
+                    }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="relative w-full md:w-auto z-50">
+              <button 
+                onClick={() => setIsCategoryMenuOpen(!isCategoryMenuOpen)}
+                className="w-full md:w-auto flex items-center justify-between gap-3 px-5 py-2.5 border-2 border-black dark:border-white rounded-full font-bold tracking-widest text-xs md:text-sm uppercase bg-white dark:bg-black text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
               >
-                {cat}
+                <div className="flex items-center gap-2">
+                  <Menu className="w-4 h-4" />
+                  <span>{activeCategory === 'Semua' ? 'Kategori Produk' : activeCategory}</span>
+                </div>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isCategoryMenuOpen ? 'rotate-180' : ''}`} />
               </button>
-            ))}
-          </div>
+              
+              {isCategoryMenuOpen && (
+                <div className="absolute top-full left-0 mt-2 w-full md:w-64 bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-2xl shadow-xl overflow-hidden py-2 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => { setActiveCategory(cat); setIsCategoryMenuOpen(false); }}
+                      className={`w-full text-left px-5 py-3 text-xs md:text-sm font-bold tracking-widest uppercase transition-colors ${
+                        activeCategory === cat 
+                          ? 'bg-black text-white dark:bg-white dark:text-black' 
+                          : 'hover:bg-black/5 dark:hover:bg-white/5'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Search */}
           <div className="relative w-full md:w-64 flex-shrink-0">

@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CategoryController;
 
 // Public routes
 Route::get('/test', function () {
@@ -38,6 +39,7 @@ Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::get('/pages', [PageController::class, 'index']);
 Route::get('/settings', [SettingController::class, 'index']);
 Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -56,6 +58,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
         Route::put('/reviews/{id}/reply', [ReviewController::class, 'reply']);
+
+        // Categories (Admin)
+        Route::post('/categories', [CategoryController::class, 'store']);
+        Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
         // Products (Admin)
         Route::post('/products', [ProductController::class, 'store']);

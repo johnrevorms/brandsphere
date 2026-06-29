@@ -7,15 +7,29 @@ import { useToast } from '../../context/ToastContext';
 export default function AdminProducts() {
   const { showToast } = useToast();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
-    name: '', category: 'TSHIRT', price: '', stock_status: 'In Stock', stock: '0', description: ''
+    name: '', category: '', price: '', stock_status: 'In Stock', stock: '0', description: ''
   });
   const [image, setImage] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get('/categories');
+      setCategories(res.data);
+      if (res.data.length > 0) {
+        setFormData(prev => ({ ...prev, category: res.data[0].name }));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -74,8 +88,8 @@ export default function AdminProducts() {
         showToast('Produk berhasil ditambahkan!');
       }
       
-      fetchProducts();
-      setFormData({ name: '', category: 'TSHIRT', price: '', stock_status: 'In Stock', stock: '0', description: '' });
+      showToast('Produk berhasil ditambahkan!');
+      setFormData({ name: '', category: categories.length > 0 ? categories[0].name : '', price: '', stock_status: 'In Stock', stock: '0', description: '' });
       setImage(null);
       setEditingId(null);
     } catch (e) {
@@ -97,11 +111,10 @@ export default function AdminProducts() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold italic">{editingId ? 'Edit Produk' : 'Formulir Tambah Produk'}</h2>
           {editingId && (
-            <button 
-              onClick={() => {
+            <button type="button" onClick={() => {
                 setEditingId(null);
-                setFormData({ name: '', category: 'TSHIRT', price: '', stock_status: 'In Stock', description: '' });
-              }}
+                setFormData({ name: '', category: categories.length > 0 ? categories[0].name : '', price: '', stock_status: 'In Stock', description: '' });
+                setImage(null);}}
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-white"
             >
               Batal Edit
@@ -116,10 +129,9 @@ export default function AdminProducts() {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Kategori</label>
             <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-lg p-3 text-black dark:text-white focus:outline-none focus:border-white">
-              <option>TSHIRT</option>
-              <option>TROUSERS</option>
-              <option>JACKET</option>
-              <option>ACCESORIES</option>
+              {categories.map(c => (
+                <option key={c.id} value={c.name}>{c.name}</option>
+              ))}
             </select>
           </div>
           <div className="flex flex-col gap-2">
