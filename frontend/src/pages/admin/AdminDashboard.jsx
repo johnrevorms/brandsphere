@@ -2,14 +2,18 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { ShoppingBag, TrendingUp, Package } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function AdminDashboard() {
+  const { theme } = useTheme();
   const [stats, setStats] = useState({
     totalOrders: 0,
     totalRevenue: 0,
     activeProducts: 0
   });
   const [recentOrders, setRecentOrders] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -29,6 +33,34 @@ export default function AdminDashboard() {
 
         setStats({ totalOrders, totalRevenue, activeProducts });
         setRecentOrders(orders.slice(0, 5)); // top 5 recent
+
+        // Compute chart data (monthly revenue for current year)
+        const currentYear = new Date().getFullYear();
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+        
+        const revenueByMonth = {};
+        months.forEach(m => revenueByMonth[m] = 0);
+
+        orders.forEach(order => {
+          if (!order.created_at) return;
+          try {
+            const orderDate = new Date(order.created_at);
+            if (orderDate.getFullYear() === currentYear) {
+              const monthName = months[orderDate.getMonth()];
+              if (revenueByMonth[monthName] !== undefined) {
+                revenueByMonth[monthName] += order.total_price;
+              }
+            }
+          } catch(err) {
+            // ignore invalid dates
+          }
+        });
+
+        const formattedChartData = months.map(month => ({
+          name: month,
+          Pendapatan: revenueByMonth[month]
+        }));
+        setChartData(formattedChartData);
       } catch (e) {
         console.error(e);
       }
@@ -68,6 +100,45 @@ export default function AdminDashboard() {
             <Package className="w-5 h-5 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors" />
           </div>
           <p className="text-4xl md:text-5xl font-black italic tracking-tighter relative z-10">{stats.activeProducts}</p>
+        </div>
+      </div>
+
+      {/* Chart Section */}
+      <div className="bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm mb-10">
+        <div className="mb-6">
+          <h2 className="text-lg md:text-xl font-bold uppercase tracking-widest border-b-2 border-black dark:border-white pb-2 inline-block">Tren Pendapatan Bulanan</h2>
+        </div>
+        <div className="h-72 md:h-96 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#888" strokeOpacity={0.2} vertical={false} />
+              <XAxis dataKey="name" tick={{ fill: '#888', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis 
+                tick={{ fill: '#888', fontSize: 12 }} 
+                axisLine={false} 
+                tickLine={false} 
+                tickFormatter={(value) => `Rp${(value / 1000)}k`} 
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: theme === 'dark' ? '#111' : '#fff', 
+                  color: theme === 'dark' ? '#fff' : '#000', 
+                  borderRadius: '8px', 
+                  border: theme === 'dark' ? '1px solid #333' : '1px solid #e5e7eb' 
+                }}
+                itemStyle={{ color: theme === 'dark' ? '#fff' : '#000' }}
+                formatter={(value) => [`Rp ${value.toLocaleString('id-ID')}`, 'Pendapatan']}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="Pendapatan" 
+                stroke={theme === 'dark' ? '#fff' : '#000'} 
+                strokeWidth={3}
+                dot={{ r: 4, strokeWidth: 2, fill: theme === 'dark' ? '#000' : '#fff' }}
+                activeDot={{ r: 6, fill: theme === 'dark' ? '#fff' : '#000' }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
