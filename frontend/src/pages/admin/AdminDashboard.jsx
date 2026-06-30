@@ -28,7 +28,7 @@ export default function AdminDashboard() {
 
         // Compute stats
         const totalOrders = orders.length;
-        const totalRevenue = orders.reduce((sum, order) => sum + order.total_price, 0);
+        const totalRevenue = orders.reduce((sum, order) => sum + Number(order.total_price), 0);
         const activeProducts = products.filter(p => p.stock_status === 'In Stock').length;
 
         setStats({ totalOrders, totalRevenue, activeProducts });
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
             if (orderDate.getFullYear() === currentYear) {
               const monthName = months[orderDate.getMonth()];
               if (revenueByMonth[monthName] !== undefined) {
-                revenueByMonth[monthName] += order.total_price;
+                revenueByMonth[monthName] += Number(order.total_price);
               }
             }
           } catch(err) {

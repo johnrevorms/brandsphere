@@ -36,7 +36,7 @@ export default function Cart() {
 
   const selectedCartItems = cart.filter(item => selectedItems.includes(item.cartItemId || item.id));
   const subTotal = selectedCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const totalQuantity = selectedCartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQuantity = selectedCartItems.reduce((sum, item) => sum + Number(item.quantity), 0);
   const totalWeight = selectedCartItems.reduce((sum, item) => sum + (500 * item.quantity), 0); // 500g per item
   
   const discountAmount = Math.floor(subTotal * (promoDiscount / 100));

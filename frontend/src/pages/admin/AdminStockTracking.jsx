@@ -32,7 +32,7 @@ export default function AdminStockTracking() {
     }
   };
 
-  const totalStock = products.reduce((a, p) => a + (p.stock || 0), 0);
+  const totalStock = products.reduce((a, p) => a + Number(p.stock || 0), 0);
   const lowStock = products.filter(p => (p.stock || 0) <= 5).length;
   const outOfStock = products.filter(p => p.stock_status === 'Out of Stock').length;
 

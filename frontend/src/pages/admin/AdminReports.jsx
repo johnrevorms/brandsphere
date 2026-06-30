@@ -22,9 +22,9 @@ export default function AdminReports() {
             acc[date] = { date, orderCount: 0, itemCount: 0, revenue: 0 };
           }
           acc[date].orderCount += 1;
-          const itemsCount = order.items ? order.items.reduce((s, i) => s + i.quantity, 0) : 0;
+          const itemsCount = order.items ? order.items.reduce((s, i) => s + Number(i.quantity), 0) : 0;
           acc[date].itemCount += itemsCount;
-          acc[date].revenue += order.total_price;
+          acc[date].revenue += Number(order.total_price);
           return acc;
         }, {});
 

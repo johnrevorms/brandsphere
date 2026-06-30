@@ -1,59 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ARCANUM - Premium Fashion E-Commerce
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**ARCANUM** adalah platform *e-commerce* premium yang dikembangkan secara modern menggunakan arsitektur *Decoupled* (Pemisahan antara Frontend dan Backend) untuk memberikan performa maksimal, skalabilitas, dan pengalaman pengguna yang luar biasa. Proyek ini dikembangkan sebagai bagian dari Tugas Akhir.
 
-## About Laravel
+## 🚀 Teknologi Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sistem ini dibangun dengan memadukan teknologi *web* terkini:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Frontend
+- **React.js & Vite**: *User Interface* yang reaktif dan super cepat.
+- **Tailwind CSS**: Desain UI yang responsif, modern, dan mendukung *Dark Mode*.
+- **Recharts**: Visualisasi data interaktif untuk grafik analitik Admin.
+- **Lucide React**: Ikon SVG yang ringan dan bersih.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Backend
+- **Laravel 11**: *Framework* PHP modern yang tangguh untuk memproses logika bisnis dan RESTful API.
+- **MySQL**: Basis data relasional untuk penyimpanan data terstruktur.
+- **Midtrans API**: Integrasi gerbang pembayaran (Payment Gateway) otomatis.
+- **Sanctum**: Sistem autentikasi token (API Security).
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ✨ Fitur Unggulan
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Dashboard Admin Komprehensif**
+   - Laporan visual analitik tren pendapatan bulanan.
+   - Pelacakan stok (*Stock Tracking*) secara *real-time*.
+   - Manajemen status pesanan dengan indikator warna (*pending, paid, cancelled*).
 
-## Laravel Sponsors
+2. **Manajemen Dinamis (CRUD)**
+   - Manajemen Produk dengan dukungan *upload* gambar.
+   - Manajemen Kategori dinamis (mendukung menu *hamburger* otomatis jika lebih dari 5 kategori).
+   - Manajemen Kode Promo (*Voucher*) dengan logika *Minimum Quantity*.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Pengalaman Belanja Pengguna**
+   - Autentikasi aman (Login/Register).
+   - Sistem Keranjang Belanja interaktif (pilih *item*, hitung subtotal, diskon otomatis).
+   - *Checkout* instan menggunakan pop-up Midtrans (QRIS, GoPay, Bank Transfer).
+   - Pelacakan riwayat pesanan (User Orders).
+   - Sistem Ulasan & Penilaian Bintang (*Review & Ratings*).
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🛠️ Instalasi & Pengembangan Lokal
 
-## Contributing
+Jika Anda ingin menjalankan proyek ini di lingkungan lokal (Localhost), ikuti langkah berikut:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Menjalankan Backend (Laravel API)
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-## Code of Conduct
+### 2. Menjalankan Frontend (React/Vite)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*(Secara otomatis Frontend akan berjalan di `http://localhost:5173` dan terkoneksi ke Backend di `http://localhost:8000`)*
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔒 Hak Cipta & Lisensi
+Dikembangkan oleh **John Revo** untuk keperluan Tugas Akhir. Seluruh aset dan kode sumber merupakan properti intelektual yang telah disesuaikan dengan kebutuhan akademik.
